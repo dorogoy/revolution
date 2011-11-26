@@ -2,134 +2,124 @@
 /**
  * TV Widget Spanish lexicon topic
  *
- * @language es_MX
+ * @language es
  * @package modx
  * @subpackage lexicon
  */
 $_lang['attributes'] = 'Atributos';
 $_lang['capitalize'] = 'Capitalizar';
-$_lang['checkbox'] = 'Opciones Múltiples';
+$_lang['checkbox'] = 'Casilla de verificación';
 $_lang['class'] = 'Clase';
-$_lang['combo_allowaddnewdata'] = 'Permitir Añadir Nuevos Artículos';
-$_lang['combo_allowaddnewdata_desc'] = 'Cuando sea Si, permite añadir artículos que no existan en la lista.  El valor prefijado es No.';
-$_lang['combo_forceselection'] = 'Forzar Selección a Lista';
-$_lang['combo_forceselection_desc'] = 'Si se usa Type-Ahead, si esto está configurado a Si, sólo permite el ingreso de artículos en la lista.';
-$_lang['combo_listempty_text'] = 'Vaciar Texto de Lista';
-$_lang['combo_listempty_text_desc'] = 'Si Type-Ahead está activado, y el usario ingresa un valor que no esté en la lista, mostrar este texto.';
-$_lang['combo_listwidth'] = 'Ancho de Lista';
-$_lang['combo_listwidth_desc'] = 'El ancho, en pixeles, de la lista de menu desplegable.  El valor prefijado es el ancho del combobox.';
-$_lang['combo_maxheight'] = 'Altura Máxima';
-$_lang['combo_maxheight_desc'] = 'La altura máxima en pixeles de la lista desplegable antes de que las barras de navegación sean mostradas (valor prefijado es 300).';
-$_lang['combo_stackitems'] = 'Encimar Artículos Seleccionados';
-$_lang['combo_stackitems_desc'] = 'Cuando está configurado a Si, los artículos estarán encimados uno por línea.  El valor prefijado es No, el cual musetra los artículos en una línea.';
-$_lang['combo_title'] = 'Encabezado de la Lista';
-$_lang['combo_title_desc'] = 'Si se provee, un elemento de encabezado es creado conteniendo este texto y añadido a la parte de arriba de la lista desplegable.';
-$_lang['combo_typeahead'] = 'Habilitar Type-Ahead';
-$_lang['combo_typeahead_desc'] = 'Si está configuradoa Si, llenar y auto-seleccionar lo que falta del texto que se está ingresando después de un retrazo configurable (Retraso de Type-Ahead) si coincide con un valor conocido (el valor prefijado es No).';
-$_lang['combo_typeahead_delay'] = 'Retrazo de Type-Ahead';
-$_lang['combo_typeahead_delay_desc'] = 'El tiempo en milisegundos que se espera hasta que el texto Type-Ahead es mostrado si Type-Ahead está habilitado (el valor prefijado es 250).';
+$_lang['combo_allowaddnewdata'] = 'Permitir añadir nuevos elementos';
+$_lang['combo_allowaddnewdata_desc'] = 'Si es positivo, permite añadir a la lista elementos que todavía no existen en ella. Por defecto No.';
+$_lang['combo_forceselection'] = 'Forzar la selección de la lista';
+$_lang['combo_forceselection_desc'] = 'Si se utiliza Texto Predictivo, si este está configurado como Sí, solamente se permite la introducción de elementos en la lista.';
+$_lang['combo_listempty_text'] = 'Texto de la Lista Vacío';
+$_lang['combo_listempty_text_desc'] = 'Si el Texto Predictivo está activo, y el usuario introduce un tipo que no se encuentra en la lista, se muestra este texto.';
+$_lang['combo_listwidth'] = 'Ancho de la lista';
+$_lang['combo_listwidth_desc'] = 'El ancho, en píxeles, de la propia lista desplegable. Por defecto toma el ancho del cuadro de selección múltiple.';
+$_lang['combo_maxheight'] = 'Ancho Máx.';
+$_lang['combo_maxheight_desc'] = 'El máximo alto en píxeles de la lista desplegable, antes de que se muestren las barras de scroll (por defecto 300).';
+$_lang['combo_stackitems'] = 'Agrupar elementos seleccionados';
+$_lang['combo_stackitems_desc'] = 'Cuando está configurado en Sí, los elementos se agruparán 1 por línea. Por defecto en No, se muestran los elementos seguidos.';
+$_lang['combo_title'] = 'Encabezado de lista';
+$_lang['combo_title_desc'] = 'Si se aporta, un elemento de encabezado se creará conteniendo este texto y se añadirá al principio de la lista desplegable.';
+$_lang['combo_typeahead'] = 'Habilitar Texto Predictivo';
+$_lang['combo_typeahead_desc'] = 'Si está activo, rellena y autoselecciona el resto del texto que está siendo escrito tras un intervalo configurable (Intervalo del Texto Predictivo) siempre y cuando coincida con un valor conocido (por defecto no activado).';
+$_lang['combo_typeahead_delay'] = 'Intervalo del Texto Predictivo';
+$_lang['combo_typeahead_delay_desc'] = 'La cantidad de tiempo en milisegundos a esperar antes de que el Texto Predictivo sea mostrado siempre que haya sido activado (por defecto 250).';
 $_lang['date'] = 'Fecha';
-$_lang['date_format'] = 'Formato de Fecha';
-$_lang['date_use_current'] = 'Si no hay valor, usa fecha actual';
-$_lang['default'] = 'Prefijado';
-$_lang['delim'] = 'Separador';
-$_lang['delimiter'] = 'Separador';
-$_lang['disabled_dates'] = 'Disabled Dates';
-$_lang['disabled_dates_desc'] = 'Una lista separada por comas de "fechas" a deshabilitar, como palabras.  Estas palabras serán usadas para construir una expresión regular dinámica así que son muy poderosas.  Algunos ejemplos:<br />
+$_lang['date_format'] = 'Formato de fecha';
+$_lang['date_use_current'] = 'Si no hay valor, utilizar la fecha actual';
+$_lang['default'] = 'Por defecto';
+$_lang['delim'] = 'Delimitador';
+$_lang['delimiter'] = 'Delimitador';
+$_lang['disabled_dates'] = 'Fechas deshabilitadas';
+$_lang['disabled_dates_desc'] = 'Un listado separado por comas de "fechas" a deshabilitar, como texto. Estas cadenas se usarán para construir una expresión regular dinámica, con lo que son muy potentes. Algunos ejemplos:<br />
 - Deshabilitar estas fechas exactas: 2003-03-08,2003-09-16<br />
-- Deshabilitar estos días para cada año: 03-08,09-16<br />
-- Sólo coincide el principio (útil si estás usando años cortos): ^03-08<br />
-- Deshabilitar cada día en Marzo 2006: 03-..-2006<br />
-- Deshabilitar cada día en cada Marzo: ^03<br />
-Nota que el formato de las fechas incluido en la lista deberá coincidir exáctamente el formato configurado.  De manera que se soporten expresiones regulares, si estás usando un formato de fecha que tienen un ".", tendrás que escapar el punto cuando restrinjas fechas.';
-$_lang['disabled_days'] = 'Días Deshabilitados';
-$_lang['disabled_days_desc'] = 'Una lista separada por comas de los días a deshabilitar, basado en 0 (el valor prefijado es null).  Algunos ejemplos:<br />
+- Deshabilitar estos días en cada año: 03-08,09-16<br />
+- Solamente coincidir con el principio (útil si utiliza un formato de años corto): ^03-08<br />
+- Deshabilitar todos los días de Marzo de 2006: 03-..-2006<br />
+- Deshabilitar todos los días de todos los Marzos: ^03<br />
+Tenga en cuenta que el formato de las fechas incluido en la lista debe coincidir exactamente con el formato configurado. Para soportar las expresiones regulares, si está usando un formato de fecha que contiene "." en él, deberá escapar los puntos al restringir las fechas.';
+$_lang['disabled_days'] = 'Días deshabilitados';
+$_lang['disabled_days_desc'] = 'Una lista separada por comas de días a deshabilitar, empieza por 0 que sería domingo, 1 lunes, etc (por defecto es nula). Algunos ejemplos:<br />
 - Deshabilitar Domingo y Sábado: 0,6<br />
-- Deshabilitar días de la semana: 1,2,3,4,5';
-$_lang['dropdown'] = 'Lista Desplegable';
-$_lang['earliest_date'] = 'Fecha Más Temprana';
-$_lang['earliest_date_desc'] = 'La fecha más temprana permitida que puede ser seleccionada.';
-$_lang['earliest_time'] = 'Hora Más Temprana';
-$_lang['earliest_time_desc'] = 'La hora más temprana permitida que puede ser seleccionada.';
+- Deshabilitar los días entre semana: 1,2,3,4,5';
+$_lang['dropdown'] = 'Lista de menú desplegable';
+$_lang['earliest_date'] = 'Fecha anterior';
+$_lang['earliest_date_desc'] = 'La fecha permitida más anterior que se puede seleccionar.';
+$_lang['earliest_time'] = 'Hora anterior';
+$_lang['earliest_time_desc'] = 'La hora permitida más anterior que se puede seleccioanr.';
 $_lang['email'] = 'Email';
-$_lang['file'] = 'Archivo';
-$_lang['height'] = 'Altura';
+$_lang['file'] = 'Fichero';
+$_lang['height'] = 'Alto';
 $_lang['hidden'] = 'Oculto';
-$_lang['htmlarea'] = 'Area de HTML';
+$_lang['htmlarea'] = 'Area HTML';
 $_lang['htmltag'] = 'Etiqueta HTML';
 $_lang['image'] = 'Imagen';
 $_lang['image_align'] = 'Alinear';
-$_lang['image_align_list'] = 'ninguna,base,arriba,centro,abajo,arribatexto,abscentro,absabajo,izquierda,derecha';
-$_lang['image_alt'] = 'Texto Alterno';
-$_lang['image_allowedfiletypes'] = 'Extensiones de Archivo Permitidas';
-$_lang['image_allowedfiletypes_desc'] = 'Si está configurado, restringirá los archivos mostrados a sólo las extensiones especificádas.  Por favor especifíca en una lista separada por comas, sin el .';
-$_lang['image_basepath'] = 'Ruta Base';
-$_lang['image_basepath_desc'] = 'La ruta del archivo a la que apunta la VdP de Imagen.  Si no está configurada, usará la configuración en filemanager_path, o la ruta base de MODX.  Puedes usar [[++base_path]], [[++core_path]] y [[++assets_path]] en este valor.';
-$_lang['image_basepath_relative'] = 'Ruta Base Relativa';
-$_lang['image_basepath_relative_desc'] = 'Si la configuración de la Ruta Base de arriba no es relativa a la ruta de instalación de MODX, configura esto a Si.';
-$_lang['image_baseurl'] = 'URL Base';
-$_lang['image_baseurl_desc'] = 'El URL de archivo al que apunta la VdP de Imagen.  Si no testá configurada, usará la configuración en filemanager_url setting, o el URL base de MODX.   Puedes usar [[++base_url]], [[++core_url]] y [[++assets_url]] en este valor.';
-$_lang['image_baseurl_relative'] = 'Url Base Relativo';
-$_lang['image_baseurl_relative_desc'] = 'Si la configuración del URL Base de arriba no es relativo al URL de instalación de MODX, configura esto a Si.';
-$_lang['image_border_size'] = 'Tamaño de Borde';
-$_lang['image_hspace'] = 'Espacio H';
-$_lang['image_vspace'] = 'Espacio V';
-$_lang['latest_date'] = 'Última Fecha';
-$_lang['latest_date_desc'] = 'La última fecha permitida que puede ser seleccionada.';
-$_lang['latest_time'] = 'Última Hora';
-$_lang['latest_time_desc'] = 'La última hora permitida que puede ser seleccionada.';
-$_lang['listbox'] = 'Lista (Sel. Sencilla)';
-$_lang['listbox-multiple'] = 'Lista  (Sel. Múltiple)';
+$_lang['image_align_list'] = 'none,baseline,top,middle,bottom,texttop,absmiddle,absbottom,left,right';
+$_lang['image_alt'] = 'Texto alternativo';
+$_lang['image_border_size'] = 'Tamaño del borde';
+$_lang['image_hspace'] = 'Espacio Horizontal';
+$_lang['image_vspace'] = 'Espacio Vertical';
+$_lang['latest_date'] = 'Fecha posterior';
+$_lang['latest_date_desc'] = 'La fecha permitida más posterior que se puede seleccionar.';
+$_lang['latest_time'] = 'Hora posterior';
+$_lang['latest_time_desc'] = 'La hora permitida más posterior que se puede seleccionar.';
+$_lang['listbox'] = 'Cuadro de lista (individual)';
+$_lang['listbox-multiple'] = 'Cuadro de lista (Múltiple)';
 $_lang['lower_case'] = 'Minúsculas';
-$_lang['max_length'] = 'Longitud Máxima';
-$_lang['min_length'] = 'Longitud Mínima';
+$_lang['max_length'] = 'Longitud máxima';
+$_lang['min_length'] = 'Longitud mínima';
 $_lang['name'] = 'Nombre';
 $_lang['number'] = 'Número';
 $_lang['number_allowdecimals'] = 'Permitir Decimales';
-$_lang['number_allownegative'] = 'Permitar Negativos';
+$_lang['number_allownegative'] = 'Permitir Negativos';
 $_lang['number_decimalprecision'] = 'Precisión Decimal';
-$_lang['number_decimalprecision_desc'] = 'La precisión máxima después del separador decimal (el valor prefijado es 2).';
-$_lang['number_decimalseparator'] = 'Separador Decimal';
-$_lang['number_decimalseparator_desc'] = 'Caracter(es) permitidos como el separador decimal (el valor prefijado es ".")';
-$_lang['number_maxvalue'] = 'Valor Máximo';
-$_lang['number_minvalue'] = 'Valor Mínimo';
-$_lang['option'] = 'Lista (Radio)';
-$_lang['parent_resources'] = 'Recursos Padre';
+$_lang['number_decimalprecision_desc'] = 'La precisión decimal máxima a mostrar tras el separador de decimales (por defecto 2).';
+$_lang['number_decimalseparator'] = 'Separador de Decimales';
+$_lang['number_decimalseparator_desc'] = 'Caracter(es) permitidos como separadores de decimales (por defecto ".")';
+$_lang['number_maxvalue'] = 'Valor máximo';
+$_lang['number_minvalue'] = 'Valor mínimo';
+$_lang['option'] = 'Selector de radio';
+$_lang['parent_resources'] = 'Recursos Padres';
 $_lang['radio_columns'] = 'Columnas';
-$_lang['radio_columns_desc'] = 'El número de columnas en las que las opciones de radio son mostradas.';
-$_lang['rawtext'] = 'Texto (obsoleto)';
-$_lang['rawtextarea'] = 'Area de Texto (obsoleto)';
-$_lang['required'] = 'Permitir Vacío';
-$_lang['required_desc'] = 'Si se configura a No, MODX no permitirá al usuario guardar el Recurso hasta que un valor válido, no vacío ha sido ingresado.';
-$_lang['resourcelist'] = 'Lista de Recursos';
+$_lang['radio_columns_desc'] = 'El número de columnas en las que se muestran los selectores de radio.';
+$_lang['rawtext'] = 'Texto sin formato (obsoleto)';
+$_lang['rawtextarea'] = 'Area de texto sin formato (obsoleto)';
+$_lang['required'] = 'Permitir en blanco';
+$_lang['required_desc'] = 'Si configurado como No, MODX no permitirá al usuario guardar el Recurso hasta que no introduzca un valor válido no vacío.';
+$_lang['resourcelist'] = 'Lista de recursos';
 $_lang['resourcelist_depth'] = 'Profundidad';
-$_lang['resourcelist_depth_desc'] = 'Los niveles de profundidad que serán interrogados por la consulta para obtener la lista de Recursos. El valor prefijado es 10.';
-$_lang['resourcelist_includeparent'] = 'Incluir Padres';
-$_lang['resourcelist_includeparent_desc'] = 'Si está configurado a Si, incluir+a los Recursos nombrados en el campo Padres en la lista.';
-$_lang['resourcelist_limit'] = 'Límite';
-$_lang['resourcelist_limit_desc'] = 'El número de Recursos en la lista.  0 o vacío significa infinito.';
+$_lang['resourcelist_depth_desc'] = 'Los niveles de profundidad que la consulta utilizará para crear el listado de recursos. 10 niveles por defecto.';
+$_lang['resourcelist_includeparent'] = 'Incluir padres';
+$_lang['resourcelist_includeparent_desc'] = 'Si es afirmativo, se incluirán los Recursos señalados como Padres en el listado.';
+$_lang['resourcelist_limit'] = 'Limite';
+$_lang['resourcelist_limit_desc'] = 'Número de Recursos a limitar en el listado. 0 o vacío significan infinito.';
 $_lang['resourcelist_parents'] = 'Padres';
-$_lang['resourcelist_parents_desc'] = 'Una lista de IDs de los hijos para la lista.';
-$_lang['resourcelist_where'] = 'Condiciones WHERE';
-$_lang['resourcelist_where_desc'] = 'Un objeto JSON con las condiciones WHERE para filtrar la consulta que obtiene los Recursos de la lista. (No soporta búsqueda en VdP.)';
-$_lang['richtext'] = 'Texto Formateado';
-$_lang['sentence_case'] = 'Oraciones Capitalizadas';
-$_lang['shownone'] = 'Permitir Selección Vacía';
-$_lang['shownone_desc'] = 'Permitir al usuario seleccionar una selección vacía la cual es un valor vacío.';
-$_lang['start_day'] = 'Día de Comienzo';
-$_lang['start_day_desc'] = 'Índice del día en el cual la semana deberá comenzar, basado en 0 (el valor prefijado es 0, que es el Domingo)';
-$_lang['string'] = 'Cadena de Caracteres';
-$_lang['string_format'] = 'Formato de Cadena de Caracteres';
+$_lang['resourcelist_parents_desc'] = 'Un listado de IDs para proporcionar hijos al listado.';
+$_lang['resourcelist_where'] = 'Condiciones Where';
+$_lang['resourcelist_where_desc'] = 'Un objeto JSON de condiciones "where" por los que filtrar en la consulta que recoge el listado de Recursos. (No soporta la búsqueda por TV)';
+$_lang['richtext'] = 'Texto formateado';
+$_lang['sentence_case'] = 'Mayúsculas a principio de oración';
+$_lang['shownone'] = 'Permitir un selector vacío';
+$_lang['shownone_desc'] = 'Permite al usuario seleccionar un selector vacío que es un valor en blanco.';
+$_lang['start_day'] = 'Día de comienzo';
+$_lang['start_day_desc'] = 'Índice de día en el que comienza la semana, basado en 0 (por defecto 0, que es Domingo)';
+$_lang['string'] = 'Cadena';
+$_lang['string_format'] = 'Formato de la cadena';
 $_lang['style'] = 'Estilo';
-$_lang['tag_id'] = 'ID de Etiqueta';
-$_lang['tag_name'] = 'Nombre de Etiqueta';
+$_lang['tag_id'] = 'ID de la etiqueta';
+$_lang['tag_name'] = 'Nombre de la etiqueta';
 $_lang['target'] = 'Objetivo';
 $_lang['text'] = 'Texto';
-$_lang['textarea'] = 'Area de Texto';
-$_lang['textareamini'] = 'Area de Texto (Mini)';
-$_lang['textbox'] = 'Caja de Texto';
-$_lang['time_increment'] = 'Incremento en Tiempo';
-$_lang['time_increment_desc'] = 'El número de minutos entre cada valor de tiempo en la lista (el valor prefijado es 15).';
+$_lang['textarea'] = 'Area de texto';
+$_lang['textareamini'] = 'Area de texto (Mini)';
+$_lang['textbox'] = 'Caja de texto';
+$_lang['time_increment'] = 'Incremento de tiempo';
+$_lang['time_increment_desc'] = 'El número de minutos entre cada valor de tiempo en el listado (por defecto 15).';
 $_lang['title'] = 'Título';
 $_lang['upper_case'] = 'Mayúsculas';
 $_lang['url'] = 'URL';

@@ -2,16 +2,16 @@
 /**
  * Welcome Spanish lexicon topic
  *
- * @language es_MX
+ * @language es
  * @package modx
  * @subpackage lexicon
  */
-$_lang['modx_news'] = 'Noticias MODX';
-$_lang['security_notices'] = 'Notas de Seguridad';
-$_lang['welcome_messages'] = 'Tu Bandeja de Entrada contiene <strong>%d</strong> mensaje(s), de los cuales <strong>%s</strong> no has leído.';
-$_lang['welcome_title'] = 'Bienvenido a tu Admin de Contenido MODX';
-$_lang['yourinfo_message'] = 'Esta sección muestra información acerca de ti:';
-$_lang['yourinfo_previous_login'] = 'Tu última entrada:';
-$_lang['yourinfo_title'] = 'Tu info';
-$_lang['yourinfo_total_logins'] = 'Número total de entradas:';
-$_lang['yourinfo_username'] = 'Estás registrado como:';
+$_lang['modx_news'] = 'Noticias de MODx';
+$_lang['security_notices'] = 'Avisos de Seguridad';
+$_lang['welcome_messages'] = 'Su bandeja de entrada contiene <strong>%d</strong> mensaje(s), de los cuales <strong>%s</strong> no se han leído.';
+$_lang['welcome_title'] = 'Bienvenido a su Administrador de Contenido MODx';
+$_lang['yourinfo_message'] = 'Esta sección muestra alguna información acerca de usted:';
+$_lang['yourinfo_previous_login'] = 'Su último inicio de sesión:';
+$_lang['yourinfo_title'] = 'Su información';
+$_lang['yourinfo_total_logins'] = 'Número total de inicios de sesión:';
+$_lang['yourinfo_username'] = 'Ha iniciado sesión como:';

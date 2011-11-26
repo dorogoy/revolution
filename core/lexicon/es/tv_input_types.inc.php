@@ -2,22 +2,22 @@
 /**
  * TV Input Types Spanish lexicon topic
  *
- * @language es_MX
+ * @language es
  * @package modx
  * @subpackage lexicon
  */
 $_lang['autotag'] = 'Auto-Etiqueta';
 $_lang['text'] = 'Texto';
-$_lang['textarea'] = 'Area de Texto';
-$_lang['textareamini'] = 'Area de Texto (Mini)';
-$_lang['richtext'] = 'Texto Formateado';
-$_lang['dropdown'] = 'Lista Desplegable';
-$_lang['listbox'] = 'Lista (Sel. Sencilla)';
-$_lang['listbox-multiple'] = 'Lista (Sel. Múltiple)';
-$_lang['option'] = 'Lista Radio';
-$_lang['checkbox'] = 'Lista Checar';
+$_lang['textarea'] = 'Area de texto';
+$_lang['textareamini'] = 'Area de texto (Mini)';
+$_lang['richtext'] = 'Texto formateado';
+$_lang['dropdown'] = 'Menú de lista desplegable';
+$_lang['listbox'] = 'Cuadro de lista (Selección simple)';
+$_lang['listbox-multiple'] = 'Cuadro de lista (Selección múltiple)';
+$_lang['option'] = 'Botones de radio';
+$_lang['checkbox'] = 'Casillas de verificación';
 $_lang['image'] = 'Imagen';
-$_lang['file'] = 'Archivo';
+$_lang['file'] = 'Fichero';
 $_lang['url'] = 'URL';
 $_lang['email'] = 'Email';
 $_lang['number'] = 'Número';
