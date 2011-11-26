@@ -2,12 +2,12 @@
 /**
  * System Events Spanish lexicon topic
  *
- * @language es_MX
+ * @language es
  * @package modx
  * @subpackage lexicon
  */
 $_lang['clear'] = 'Limpiar';
-$_lang['error_log'] = 'Bitácora de Errores';
-$_lang['error_log_desc'] = 'Aquí está la bitácora de errores para MODX Revolution:';
-$_lang['system_events'] = 'Eventos del Sistema';
+$_lang['error_log'] = 'Registro de errores';
+$_lang['error_log_desc'] = 'Aquí se encuentra el registro de errores de MODx Revolution:';
+$_lang['system_events'] = 'Eventos del sistema';
 $_lang['priority'] = 'Prioridad';

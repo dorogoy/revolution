@@ -2,11 +2,11 @@
 /**
  * Custom Filters Spanish lexicon topic
  *
- * @language es_MX
+ * @language es
  * @package modx
  * @subpackage lexicon
  */
-$_lang['ago'] = '[[+time]]';
+$_lang['ago'] = 'hace [[+time]]';
 $_lang['ago_day'] = '[[+time]] día';
 $_lang['ago_days'] = '[[+time]] días';
 $_lang['ago_hour'] = '[[+time]] hora';
