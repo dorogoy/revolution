@@ -78,7 +78,7 @@ class modResourceGroupResourceGetListProcessor extends modProcessor {
             if (!empty($parent) && $mode == 'create') {
                 $resourceGroupArray['access'] = in_array($resourceGroupArray['id'],$parentGroups) ? true : false;
             }
-            if(is_array($rgs) && count($rgs) > 0) {
+            if (isset($rgs) && is_array($rgs) && count($rgs) > 0) {
                 $name = $resourceGroup->get('name');
                 if(array_key_exists($name, $rgs)) {
                     $resourceGroupArray['access'] = (boolean) $rgs[$name]->get('access');
@@ -113,15 +113,18 @@ class modResourceGroupResourceGetListProcessor extends modProcessor {
     }
 
     /**
+     * Get reload data for the ResourceGroup list
+     * @param string $token
      * @return array|mixed
      */
-    protected function getRGReloadData(string $token) {
+    protected function getRGReloadData($token) {
         $modx =& $this->modx;
         $reloadData = array();
         if(!isset($modx->registry)) {
             $modx->getService('registry', 'registry.modRegistry');
         }
         if(isset($modx->registry)) {
+            /** @var modDbRegister $reg */
             $modx->registry->addRegister('resource_reload', 'registry.modDbRegister', array('directory' => 'resource_reload'));
             $reg = $modx->registry->resource_reload;
             if($reg->connect()) {

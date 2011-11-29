@@ -27,7 +27,7 @@ class modManagerResponse extends modResponse {
         if (!isset($this->modx->request) || !isset($this->modx->request->action)) {
             $this->body = $this->modx->error->failure($this->modx->lexicon('action_err_ns'));
         } else {
-            $action =& intval($this->modx->request->action);
+            $action = (integer) $this->modx->request->action;
         }
 
         $theme = $this->modx->getOption('manager_theme',null,'default');
@@ -42,6 +42,7 @@ class modManagerResponse extends modResponse {
         }
 
         $this->action = $this->modx->actionMap[$action];
+        if (empty($this->action)) $this->action = array();
         $isLoggedIn = $this->modx->user->isAuthenticated('mgr');
         if (!$isLoggedIn) {
             $this->action['namespace'] = 'core';

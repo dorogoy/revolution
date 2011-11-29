@@ -74,7 +74,7 @@ abstract class modManagerController {
      * @param array $config A configuration array of options related to this controller's action object.
      * @return The class specified by $className
      */
-    public static function getInstance(modX &$modx,$className,$config = array()) {
+    public static function getInstance(modX &$modx, $className, array $config = array()) {
         /** @var modManagerController $controller */
         $controller = new $className($modx,$config);
         return $controller;
@@ -326,7 +326,7 @@ abstract class modManagerController {
      * @return array
      */
     public function getControllersPaths($coreOnly = false) {
-        if ($this->config['namespace'] != 'core' && !$coreOnly) { /* for non-core controllers */
+        if (!empty($this->config['namespace']) && $this->config['namespace'] != 'core' && !$coreOnly) { /* for non-core controllers */
             $managerPath = $this->modx->getOption('manager_path',null,MODX_MANAGER_PATH);
             $paths[] = $this->config['namespace_path'].'controllers/'.$this->theme.'/';
             $paths[] = $this->config['namespace_path'].'controllers/default/';
@@ -355,7 +355,7 @@ abstract class modManagerController {
     public function getTemplatesPaths($coreOnly = false) {
         $namespacePath = $this->modx->getOption('manager_path',null,MODX_MANAGER_PATH);
         /* extras */
-        if ($this->config['namespace'] != 'core' && !$coreOnly) {
+        if (!empty($this->config['namespace']) && $this->config['namespace'] != 'core' && !$coreOnly) {
             $paths[] = $namespacePath . 'templates/'.$this->theme.'/';
             $paths[] = $namespacePath . 'templates/default/';
             $paths[] = $namespacePath . 'templates/';
@@ -532,7 +532,6 @@ abstract class modManagerController {
      * @return array|mixed|string
      */
     public function getDefaultState() {
-        $this->modx->setLogTarget('ECHO');
         /** @var modProcessorResponse $response */
         $response = $this->modx->runProcessor('system/registry/register/read',array(
             'register' => 'state',
@@ -730,7 +729,7 @@ abstract class modManagerController {
         $c->leftJoin('modFormCustomizationProfileUserGroup','ProfileUserGroup','Profile.id = ProfileUserGroup.profile');
         $c->leftJoin('modFormCustomizationProfile','UGProfile','UGProfile.id = ProfileUserGroup.profile');
         $c->where(array(
-            'modActionDom.action' => $this->config['id'],
+            'modActionDom.action' => array_key_exists('id',$this->config) ? $this->config['id'] : 0,
             'modActionDom.for_parent' => $forParent,
             'FCSet.active' => true,
             'Profile.active' => true,
@@ -847,7 +846,7 @@ abstract class modExtraManagerController extends modManagerController {
      * @param array $config An array of configuration options built from the modAction object
      * @return modManagerController A newly created modManagerController instance
      */
-    public static function getInstance(modX &$modx,$className,array $config = array()) {
+    public static function getInstance(modX &$modx, $className, array $config = array()) {
         $action = call_user_func(array($className,'getDefaultController'));
         if (isset($_REQUEST['action'])) {
             $action = str_replace(array('../','./','.','-','@'),'',$_REQUEST['action']);

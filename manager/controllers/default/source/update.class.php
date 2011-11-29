@@ -62,10 +62,10 @@ class SourceUpdateManagerController extends modManagerController {
                 $property['name'],
                 $property['desc'],
                 $property['type'],
-                $property['options'],
+                !empty($property['options']) ? $property['options'] : array(),
                 $property['value'],
                 $property['lexicon'],
-                $property['overridden'],
+                !empty($property['overridden']) ? $property['overridden'] : 0,
                 $property['desc_trans'],
                 $property['name_trans'],
             );
