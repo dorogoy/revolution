@@ -48,5 +48,5 @@ $_lang['template_tv_msg'] = 'Las variables de plantilla asignadas a esta plantil
 $_lang['template_untitled'] = 'Plantilla sin título';
 $_lang['templates'] = 'Plantillas';
 $_lang['tvt_err_nf'] = 'La variable de plantilla (TV) no tiene acceso a la plantilla especificada.';
-$_lang['tvt_err_remove'] = 'Ocurrió un error al tratar de eliminar la variable de plantilla de la plantilla.';
-$_lang['tvt_err_save'] = 'Ocurrió un error al tratar de adjuntar la variable de plantilla a la plantilla.';
+$_lang['tvt_err_remove'] = 'Ocurrió un error al tratar de eliminar la TV de la plantilla.';
+$_lang['tvt_err_save'] = 'Ocurrió un error al tratar de adjuntar la TV a la plantilla.';

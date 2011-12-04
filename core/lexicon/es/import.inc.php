@@ -13,7 +13,7 @@ $_lang['import_element'] = 'Introduzca la raíz del elemento HTML a importar:';
 $_lang['import_enter_root_element'] = 'Introduzca la raíz del elemento a importar:';
 $_lang['import_files_found'] = '<strong>Se encontraron %s documentos para importar...</strong><p/>';
 $_lang['import_parent_document'] = 'Document Padre:';
-$_lang['import_parent_document_message'] = 'Utilice el árbol de documentos mostrado a continuación para seleccionar la ubicación en la que desée importar sus ficheros.';
+$_lang['import_parent_document_message'] = 'Utilice el árbol de documentos mostrado a continuación para seleccionar la ubicación en la que desee importar sus ficheros.';
 $_lang['import_resource_class'] = 'Seleccione una clase modResource a importar:<br /><small><em>Utilice modStaticResource para enlazar con ficheros estáticos, o modDocument para copiar el contenido en la base de datos.</em></small>';
 $_lang['import_site_failed'] = '<span style="color:#990000">¡Falló!</span>';
 $_lang['import_site_html'] = 'Importar sitio desde HTML';

@@ -7,7 +7,7 @@
  * @subpackage lexicon
  */
 $_lang['access'] = 'Acceso';
-$_lang['cache_output'] = 'Salida del Caché';
+$_lang['cache_output'] = 'Salida de la Caché';
 $_lang['changes'] = 'Cambios';
 $_lang['class_key'] = 'Clave de Clase';
 $_lang['context'] = 'Contexto';
@@ -115,8 +115,8 @@ $_lang['resource_searchable_help'] = 'Cuando está habilitado, el recurso puede 
 $_lang['resource_settings'] = 'Configuración del Recurso';
 $_lang['resource_status'] = 'Estado';
 $_lang['resource_status_help'] = 'Si está publicado, el recurso está disponible al público inmediatemente después de ser guardado. De otra manera, está oculto del sitio público.';
-$_lang['resource_summary'] = 'Resúmen (introtext)';
-$_lang['resource_summary_help'] = 'Un resúmen breve del recurso.';
+$_lang['resource_summary'] = 'Resumen';
+$_lang['resource_summary_help'] = 'Un resumen breve del recurso.';
 $_lang['resource_syncsite'] = 'Vaciar la Caché';
 $_lang['resource_syncsite_help'] = 'Cuando esté habilitado, esto hará que MODX vacíe la caché después de guardar el recurso. De esta manera sus visitantes no verán una versión antigua del recurso.';
 $_lang['resource_template'] = 'Plantilla Usada';

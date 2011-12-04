@@ -8,7 +8,7 @@
  */
 $_lang['as_system_settings'] = 'Configuración del Sistema';
 $_lang['as_context_settings'] = 'Configuración del Contexto';
-$_lang['as_lexicon_entries'] = 'Entradas al Léxico';
+$_lang['as_lexicon_entries'] = 'Entradas del Léxico';
 $_lang['as_lexicon_topics'] = 'Temas del Léxico';
 $_lang['build'] = 'Construir';
 $_lang['class_key'] = 'Clave de la Clase';
@@ -21,7 +21,7 @@ $_lang['object'] = 'Objeto';
 $_lang['object_id'] = 'ID del Objeto';
 $_lang['object_id_desc'] = 'El objeto exacto que quiere mapear. Requerido.';
 $_lang['package_autoselects'] = 'Auto-Inclusiones de Paquete';
-$_lang['package_autoselects_desc'] = 'Por favor seleccione los recursos que quiera que el Constructor de Paquetes incluya automáticamente. Nota: si está construyendo desde el core, se recomienda no seleccionar ninguno de estos.';
+$_lang['package_autoselects_desc'] = 'Por favor, seleccione los recursos que quiera que el Constructor de Paquetes incluya automáticamente. Nota: si está construyendo desde el core, se recomienda no seleccionar ninguno de estos.';
 $_lang['package_build'] = 'Construir el Paquete';
 $_lang['package_build_desc'] = 'Ahora está listo para construir el paquete.  Una vez construido, será puesto en tu directorio core/packages.';
 $_lang['package_build_err'] = 'Ocurrió un error mientras se trataba de construir el paquete.';
@@ -63,7 +63,7 @@ $_lang['vehicle'] = 'Vehículo';
 $_lang['vehicle_add'] = 'Añadir Vehículo';
 $_lang['vehicle_create'] = 'Crear Vehículo';
 $_lang['vehicle_remove'] = 'Eliminar  Vehículo';
-$_lang['vehicle_remove_confirm'] = 'Está seguro de querer eliminar este vehículo?';
+$_lang['vehicle_remove_confirm'] = '¿Está seguro de querer eliminar este vehículo?';
 $_lang['vehicles'] = 'Vehículos';
 $_lang['vehicles_add'] = 'Añadir Vehículos';
 $_lang['vehicles_desc'] = 'Los Vehículos son objetos que están contenidos en el paquete.  Puedes añadirlos aquí.';

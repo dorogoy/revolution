@@ -6,7 +6,7 @@
  * @package modx
  * @subpackage lexicon
  */
-$_lang['modx_news'] = 'Noticias de MODx';
+$_lang['modx_news'] = 'Noticias de MODX';
 $_lang['security_notices'] = 'Avisos de Seguridad';
 $_lang['welcome_messages'] = 'Su bandeja de entrada contiene <strong>%d</strong> mensaje(s), de los cuales <strong>%s</strong> no se han leído.';
 $_lang['welcome_title'] = 'Bienvenido a su Administrador de Contenido MODx';

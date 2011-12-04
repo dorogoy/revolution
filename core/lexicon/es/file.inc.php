@@ -7,7 +7,7 @@
  * @subpackage lexicon
  */
 $_lang['directory'] = 'Directorio';
-$_lang['file_confirm_remove'] = '¿Está seguro de querer eliminar este fichero?  Esto puede romper potencialmente su sitio web.';
+$_lang['file_confirm_remove'] = '¿Está seguro de querer eliminar este fichero? Esto puede romper potencialmente su sitio web.';
 $_lang['file_create'] = 'Crear Fichero';
 $_lang['file_deleted'] = '¡Éxito!';
 $_lang['file_delete_file'] = 'Eliminar Fichero';
@@ -22,7 +22,7 @@ $_lang['file_err_ext_not_allowed'] = 'Extensión de fichero `[[+ext]]` no permit
 $_lang['file_err_filter'] = 'No hay ficheros que concuerden con el filtro especificado.';
 $_lang['file_err_invalid'] = 'El fichero no es un fichero regular y no puede ser eliminado.';
 $_lang['file_err_nf'] = '¡El fichero no existe!';
-$_lang['file_err_ns'] = 'Por favor especifique un fichero válido.';
+$_lang['file_err_ns'] = 'Por favor, especifique un fichero válido.';
 $_lang['file_err_open'] = 'No se puede abrir el fichero: ';
 $_lang['file_err_perms_rename'] = 'El servidor no tiene los permisos necesarios para renombrar el fichero.';
 $_lang['file_err_perms_remove'] = 'El servidor no tiene los permisos necesarios para remover el fichero.';
