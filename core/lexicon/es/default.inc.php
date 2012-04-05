@@ -465,7 +465,6 @@ $_lang['xtype'] = 'Tipo de campo';
 $_lang['xtype_desc'] = 'Tipo de campo de la configuración. Este puede ser: campo de texto, area de texto o booleano.';
 $_lang['yes'] = 'Sí';
 $_lang['yesno'] = 'Sí/No';
-
 $_lang['january'] = 'Enero';
 $_lang['february'] = 'Febrero';
 $_lang['march'] = 'Marzo';
@@ -478,7 +477,6 @@ $_lang['september'] = 'Septiembre';
 $_lang['october'] = 'Octubre';
 $_lang['november'] = 'Noviembre';
 $_lang['december'] = 'Diciembre';
-
 $_lang['sunday'] = 'Domingo';
 $_lang['monday'] = 'Lunes';
 $_lang['tuesday'] = 'Martes';
