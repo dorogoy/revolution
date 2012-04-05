@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2010-2011 by MODX, LLC.
+ * Copyright 2010-2012 by MODX, LLC.
  *
  * This file is part of xPDO.
  *
@@ -303,27 +303,20 @@ class xPDOObject {
             $alias = $className;
             $actualClass= $className;
         }
-        if (isset($row["{$className}_class_key"])) {
-            $actualClass= $row["{$className}_class_key"];
-            $rowPrefix= $className . '_';
-        }
-        elseif (isset ($row["{$alias}_class_key"])) {
+        if (isset ($row["{$alias}_class_key"])) {
             $actualClass= $row["{$alias}_class_key"];
             $rowPrefix= $alias . '_';
-        }
-        elseif (isset ($row['class_key'])) {
+        } elseif (isset($row["{$className}_class_key"])) {
+            $actualClass= $row["{$className}_class_key"];
+            $rowPrefix= $className . '_';
+        } elseif (isset ($row['class_key'])) {
             $actualClass= $row['class_key'];
         }
+        /** @var xPDOObject $instance */
         $instance= $xpdo->newObject($actualClass);
         if (is_object($instance) && $instance instanceof xPDOObject) {
-            if (strpos(strtolower(key($row)), strtolower($alias . '_')) === 0) {
-                $rowPrefix= $alias . '_';
-            }
-            elseif (strpos(strtolower(key($row)), strtolower($className . '_')) === 0) {
-                $rowPrefix= $className . '_';
-            }
-            else {
-                $pk = $xpdo->getPK($actualClass);
+            $pk = $xpdo->getPK($actualClass);
+            if ($pk) {
                 if (is_array($pk)) $pk = reset($pk);
                 if (isset($row["{$alias}_{$pk}"])) {
                     $rowPrefix= $alias . '_';
@@ -334,11 +327,20 @@ class xPDOObject {
                 elseif ($className !== $alias && isset($row["{$className}_{$pk}"])) {
                     $rowPrefix= $className . '_';
                 }
+            } elseif (strpos(strtolower(key($row)), strtolower($alias . '_')) === 0) {
+                $rowPrefix= $alias . '_';
+            } elseif (strpos(strtolower(key($row)), strtolower($className . '_')) === 0) {
+                $rowPrefix= $className . '_';
             }
-            if (!$instance instanceof $className) {
+            $parentClass = $className;
+            $isSubPackage = strpos($className,'.');
+            if ($isSubPackage !== false) {
+                $parentClass = substr($className,$isSubPackage+1);
+            }
+            if (!$instance instanceof $parentClass) {
                 $xpdo->log(xPDO::LOG_LEVEL_ERROR, "Instantiated a derived class {$actualClass} that is not a subclass of the requested class {$className}");
             }
-            $instance->_lazy= $actualClass !== $className ? array_keys($xpdo->getFieldMeta($className)) : array_keys($instance->_fieldMeta);
+            $instance->_lazy= $actualClass !== $className ? array_keys($xpdo->getFieldMeta($actualClass)) : array_keys($instance->_fieldMeta);
             $instance->fromArray($row, $rowPrefix, true, true);
             $instance->_dirty= array ();
             $instance->_new= false;
@@ -523,9 +525,14 @@ class xPDOObject {
                 $fromCache = !empty($rows);
             }
             if (!$fromCache) {
-                $stmt= $query->prepare();
-                if ($stmt && $stmt->execute()) {
-                    $objCollection= $query->hydrateGraph($stmt, $cacheFlag);
+                if ($query->prepare()) {
+                    if ($query->stmt->execute()) {
+                        $objCollection= $query->hydrateGraph($query->stmt, $cacheFlag);
+                    } else {
+                        $xpdo->log(xPDO::LOG_LEVEL_ERROR, "Error {$query->stmt->errorCode()} executing query: {$query->sql} - " . print_r($query->stmt->errorInfo(), true));
+                    }
+                } else {
+                    $xpdo->log(xPDO::LOG_LEVEL_ERROR, "Error {$xpdo->errorCode()} preparing statement: {$query->sql} - " . print_r($xpdo->errorInfo(), true));
                 }
             } elseif (!empty($rows)) {
                 $objCollection= $query->hydrateGraph($rows, $cacheFlag);
@@ -1062,6 +1069,9 @@ class xPDOObject {
             }
             if ($criteria === null) {
                 $criteria= array ($fk => $this->get($k));
+                if (isset($fkdef['criteria']) && isset($fkdef['criteria']['foreign'])) {
+                    $criteria= array($fkdef['criteria']['foreign'], $criteria);
+                }
             }
             if ($object= $this->xpdo->getObject($fkdef['class'], $criteria, $cacheFlag)) {
                 $this->_relatedObjects[$alias]= $object;
@@ -1105,11 +1115,26 @@ class xPDOObject {
         $iterator = false;
         $fkMeta= $this->getFKDefinition($alias);
         if ($fkMeta) {
+            $fkCriteria = isset($fkMeta['criteria']) && isset($fkMeta['criteria']['foreign']) ? $fkMeta['criteria']['foreign'] : null;
             if ($criteria === null) {
                 $criteria= array($fkMeta['foreign'] => $this->get($fkMeta['local']));
+                if ($fkCriteria !== null) {
+                    $criteria = array($fkCriteria, $criteria);
+                }
             } else {
                 $criteria= $this->xpdo->newQuery($fkMeta['class'], $criteria);
-                $criteria->andCondition(array("{$criteria->getAlias()}.{$fkMeta['foreign']}" => $this->get($fkMeta['local'])));
+                $addCriteria = array("{$criteria->getAlias()}.{$fkMeta['foreign']}" => $this->get($fkMeta['local']));
+                if ($fkCriteria !== null) {
+                    $fkAddCriteria = array();
+                    foreach ($fkCriteria as $fkCritKey => $fkCritVal) {
+                        if (is_numeric($fkCritKey)) continue;
+                        $fkAddCriteria["{$criteria->getAlias()}.{$fkCritKey}"] = $fkCritVal;
+                    }
+                    if (!empty($fkAddCriteria)) {
+                        $addCriteria = array($fkAddCriteria, $addCriteria);
+                    }
+                }
+                $criteria->andCondition($addCriteria);
             }
             $iterator = $this->xpdo->getIterator($fkMeta['class'], $criteria, $cacheFlag);
         }
@@ -1148,12 +1173,25 @@ class xPDOObject {
                 $owner= isset ($fkMeta['owner']) ? $fkMeta['owner'] : 'local';
                 $kval= $this->get($key);
                 $fkval= $obj->get($fk);
-
                 if ($owner == 'local') {
+                    $fkCriteria = isset($fkMeta['criteria']) && isset($fkMeta['criteria']['foreign']) ? $fkMeta['criteria']['foreign'] : null;
                     $obj->set($fk, $kval);
+                    if (is_array($fkCriteria)) {
+                        foreach ($fkCriteria as $fkCritKey => $fkCritVal) {
+                            if (is_numeric($fkCritKey)) continue;
+                            $obj->set($fkCritKey, $fkCritVal);
+                        }
+                    }
                 }
                 else {
                     $this->set($key, $fkval);
+                    $fkCriteria = isset($fkMeta['criteria']) && isset($fkMeta['criteria']['local']) ? $fkMeta['criteria']['local'] : null;
+                    if (is_array($fkCriteria)) {
+                        foreach ($fkCriteria as $fkCritKey => $fkCritVal) {
+                            if (is_numeric($fkCritKey)) continue;
+                            $this->set($fkCritKey, $fkCritVal);
+                        }
+                    }
                 }
 
                 $this->_relatedObjects[$obj->_alias]= $obj;
@@ -1474,8 +1512,15 @@ class xPDOObject {
         if (!$owner) {
             $owner= $cardinality === 'many' ? 'foreign' : 'local';
         }
+        $criteria = isset($fkMeta['criteria']) ? $fkMeta['criteria'] : null;
         if ($owner === 'local' && $fk= $this->get($local)) {
             $obj->set($foreign, $fk);
+            if (isset($criteria['foreign']) && is_array($criteria['foreign'])) {
+                foreach ($criteria['foreign'] as $critKey => $critVal) {
+                    if (is_numeric($critKey)) continue;
+                    $obj->set($critKey, $critVal);
+                }
+            }
             $saved= $obj->save();
         } elseif ($owner === 'foreign') {
             if ($obj->isNew() || !empty($obj->_dirty)) {
@@ -1484,6 +1529,12 @@ class xPDOObject {
             $fk= $obj->get($foreign);
             if ($fk) {
                 $this->set($local, $fk);
+                if (isset($criteria['local']) && is_array($criteria['local'])) {
+                    foreach ($criteria['local'] as $critKey => $critVal) {
+                        if (is_numeric($critKey)) continue;
+                        $this->set($critKey, $critVal);
+                    }
+                }
             }
         }
         if ($this->xpdo->getDebug() === true) $this->xpdo->log(xPDO::LOG_LEVEL_DEBUG , ($saved ? 'Successfully saved' : 'Could not save') . " related object\nMain object: " . print_r($this->toArray('', true), true) . "\nRelated Object: " . print_r($obj->toArray('', true), true));
@@ -1757,11 +1808,26 @@ class xPDOObject {
             foreach ($graph as $alias => $branch) {
                 $fkMeta = $this->getFKDefinition($alias);
                 if ($fkMeta) {
+                    $fkCriteria = isset($fkMeta['criteria']) && isset($fkMeta['criteria']['foreign']) ? $fkMeta['criteria']['foreign'] : null;
                     if ($criteria === null) {
                         $query= array($fkMeta['foreign'] => $this->get($fkMeta['local']));
+                        if ($fkCriteria !== null) {
+                            $query= array($fkCriteria, $query);
+                        }
                     } else {
                         $query= $this->xpdo->newQuery($fkMeta['class'], $criteria);
-                        $query->andCondition(array("{$query->getAlias()}.{$fkMeta['foreign']}" => $this->get($fkMeta['local'])));
+                        $addCriteria= array("{$query->getAlias()}.{$fkMeta['foreign']}" => $this->get($fkMeta['local']));
+                        if ($fkCriteria !== null) {
+                            $fkAddCriteria = array();
+                            foreach ($fkCriteria as $fkCritKey => $fkCritVal) {
+                                if (is_numeric($fkCritKey)) continue;
+                                $fkAddCriteria["{$criteria->getAlias()}.{$fkCritKey}"] = $fkCritVal;
+                            }
+                            if (!empty($fkAddCriteria)) {
+                                $addCriteria = array($fkAddCriteria, $addCriteria);
+                            }
+                        }
+                        $query->andCondition($addCriteria);
                     }
                     $collection = $this->xpdo->call($fkMeta['class'], 'loadCollectionGraph', array(
                         &$this->xpdo,
@@ -2074,11 +2140,26 @@ class xPDOObject {
         } else {
             $fkMeta= $this->getFKDefinition($alias);
             if ($fkMeta) {
+                $fkCriteria = isset($fkMeta['criteria']) && isset($fkMeta['criteria']['foreign']) ? $fkMeta['criteria']['foreign'] : null;
                 if ($criteria === null) {
                     $criteria= array($fkMeta['foreign'] => $this->get($fkMeta['local']));
+                    if ($fkCriteria !== null) {
+                        $criteria= array($fkCriteria, $criteria);
+                    }
                 } else {
                     $criteria= $this->xpdo->newQuery($fkMeta['class'], $criteria);
-                    $criteria->andCondition(array("{$criteria->getAlias()}.{$fkMeta['foreign']}" => $this->get($fkMeta['local'])));
+                    $addCriteria = array("{$criteria->getAlias()}.{$fkMeta['foreign']}" => $this->get($fkMeta['local']));
+                    if ($fkCriteria !== null) {
+                        $fkAddCriteria = array();
+                        foreach ($fkCriteria as $fkCritKey => $fkCritVal) {
+                            if (is_numeric($fkCritKey)) continue;
+                            $fkAddCriteria["{$criteria->getAlias()}.{$fkCritKey}"] = $fkCritVal;
+                        }
+                        if (!empty($fkAddCriteria)) {
+                            $addCriteria = array($fkAddCriteria, $addCriteria);
+                        }
+                    }
+                    $criteria->andCondition($addCriteria);
                 }
                 if ($collection= $this->xpdo->getCollection($fkMeta['class'], $criteria, $cacheFlag)) {
                     $this->_relatedObjects[$alias]= array_merge($this->_relatedObjects[$alias], $collection);

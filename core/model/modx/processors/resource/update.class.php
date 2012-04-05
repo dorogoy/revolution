@@ -136,9 +136,22 @@ class modResourceUpdateProcessor extends modObjectUpdateProcessor {
         $this->checkPublishingPermissions();
         $this->checkForUnPublishOnSiteStart();
         $this->checkDeletedStatus();
+        $this->handleResourceProperties();
         $this->unsetProperty('variablesmodified');
         
         return parent::beforeSet();
+    }
+
+    /**
+     * Handle any properties-specific fields
+     */
+    public function handleResourceProperties() {
+        if ($this->object->get('class_key') == 'modWebLink') {
+            $responseCode = $this->getProperty('responseCode');
+            if (!empty($responseCode)) {
+                $this->object->setProperty('responseCode',$responseCode);
+            }
+        }
     }
 
     /**
@@ -671,7 +684,7 @@ class modResourceUpdateProcessor extends modObjectUpdateProcessor {
         $this->object->removeLock();
         $this->clearCache();
 
-        $returnArray = $this->object->get(array_diff(array_keys($this->object->_fields), array('content','ta','introtext','description','link_attributes','pagetitle','longtitle','menutitle')));
+        $returnArray = $this->object->get(array_diff(array_keys($this->object->_fields), array('content','ta','introtext','description','link_attributes','pagetitle','longtitle','menutitle','properties')));
         foreach ($returnArray as $k => $v) {
             if (strpos($k,'tv') === 0) {
                 unset($returnArray[$k]);
@@ -691,11 +704,15 @@ class modResourceUpdateProcessor extends modObjectUpdateProcessor {
         $syncSite = $this->getProperty('syncsite',false);
         $clearCache = $this->getProperty('clearCache',false);
         if (!empty($syncSite) || !empty($clearCache)) {
+            $contexts = array($this->object->get('context_key'));
+            if (!empty($this->oldContext)) {
+                $contexts[] = $this->oldContext->get('key');
+            }
             $this->modx->cacheManager->refresh(array(
                 'db' => array(),
-                'auto_publish' => array('contexts' => array($this->object->get('context_key'))),
-                'context_settings' => array('contexts' => array($this->object->get('context_key'))),
-                'resource' => array('contexts' => array($this->object->get('context_key'))),
+                'auto_publish' => array('contexts' => $contexts),
+                'context_settings' => array('contexts' => $contexts),
+                'resource' => array('contexts' => $contexts),
             ));
         }
     }

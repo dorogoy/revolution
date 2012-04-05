@@ -20,7 +20,7 @@ abstract class modManagerController {
     /** @var bool Set to false to prevent loading of the base MODExt JS classes. */
     public $loadBaseJavascript = true;
     /** @var array An array of possible paths to this controller's templates directory. */
-    public $templatesPaths;
+    public $templatesPaths = array();
     /** @var array An array of possible paths to this controller's directory. */
     public $controllersPaths;
     /** @var modContext The current working context. */
@@ -100,6 +100,17 @@ abstract class modManagerController {
     }
 
     /**
+     * Prepares the language placeholders
+     */
+    public function prepareLanguage() {
+        $this->modx->lexicon->load('action');
+        $languageTopics = $this->getLanguageTopics();
+        foreach ($languageTopics as $topic) { $this->modx->lexicon->load($topic); }
+        $this->setPlaceholder('_lang_topics',implode(',',$languageTopics));
+        $this->setPlaceholder('_lang',$this->modx->lexicon->fetch());
+    }
+
+    /**
      * Render the controller.
      * 
      * @return string
@@ -109,16 +120,14 @@ abstract class modManagerController {
             return $this->modx->error->failure($this->modx->lexicon('access_denied'));
         }
 
+        $this->modx->invokeEvent('OnBeforeManagerPageInit',array(
+            'action' => $this->config,
+        ));
+
         $this->theme = $this->modx->getOption('manager_theme',null,'default');
-        
-        $this->modx->lexicon->load('action');
-        $languageTopics = $this->getLanguageTopics();
-        foreach ($languageTopics as $topic) { $this->modx->lexicon->load($topic); }
-        $this->setPlaceholder('_lang_topics',implode(',',$languageTopics));
-        $this->setPlaceholder('_lang',$this->modx->lexicon->fetch());
+
+        $this->prepareLanguage();
         $this->setPlaceholder('_ctx',$this->modx->context->get('key'));
-
-
         $this->loadControllersPath();
         $this->loadTemplatesPath();
         $content = '';
@@ -129,9 +138,8 @@ abstract class modManagerController {
 
         $this->setPlaceholder('_config',$this->modx->config);
 
-        $this->modx->invokeEvent('OnBeforeManagerPageInit',array(
-            'action' => $this->config,
-        ));
+        $this->modx->invokeEvent('OnManagerPageBeforeRender',array('controller' => &$this));
+
         $placeholders = $this->process($this->scriptProperties);
         if (!$this->isFailure && !empty($placeholders) && is_array($placeholders)) {
             $this->setPlaceholders($placeholders);
@@ -173,6 +181,7 @@ abstract class modManagerController {
         }
 
         $this->firePostRenderEvents();
+        $this->modx->invokeEvent('OnManagerPageAfterRender',array('controller' => &$this));
 
         return $this->content;
     }
@@ -236,10 +245,12 @@ abstract class modManagerController {
      */
     public function fetchTemplate($tpl) {
         $templatePath = '';
-        foreach ($this->templatesPaths as $path) {
-            if (file_exists($path.$tpl)) {
-                $templatePath = $path;
-                break;
+        if (is_array($this->templatesPaths)) {
+            foreach ($this->templatesPaths as $path) {
+                if (file_exists($path.$tpl)) {
+                    $templatePath = $path;
+                    break;
+                }
             }
         }
         $this->modx->smarty->setTemplatePath($templatePath);
@@ -477,7 +488,7 @@ abstract class modManagerController {
             $externals[] = $managerUrl.'assets/modext/widgets/system/modx.tree.directory.js';
             $externals[] = $managerUrl.'assets/modext/core/modx.view.js';
             
-            $siteId = $_SESSION["modx.{$this->modx->context->get('key')}.user.token"];
+            $siteId = $this->modx->user->getUserToken('mgr');
 
             $externals[] = $managerUrl.'assets/modext/core/modx.layout.js';
 
@@ -503,7 +514,7 @@ abstract class modManagerController {
                         $i++;
                     }
                     foreach ($sources as $scripts) {
-                        $o .= '<script type="text/javascript" src="'.$minDir.'?f='.implode(',',$scripts).'"></script>';
+                        $o .= '<script type="text/javascript" src="'.$minDir.'index.php?f='.implode(',',$scripts).'"></script>';
                     }
                 }
             } else if (empty($compressJs)) {
@@ -611,7 +622,7 @@ abstract class modManagerController {
                     $i++;
                 }
                 foreach ($sources as $scripts) {
-                    $cssjs[] = '<script type="text/javascript" src="'.$minDir.'?f='.implode(',',$scripts).'"></script>';
+                    $cssjs[] = '<script type="text/javascript" src="'.$minDir.'index.php?f='.implode(',',$scripts).'"></script>';
                 }
             } else {
                 foreach ($jsToCompress as $scr) {
@@ -626,7 +637,7 @@ abstract class modManagerController {
         }
         if (!empty($cssToCompress)) {
             if ($this->modx->getOption('compress_css',null,true)) {
-                $cssjs[] = '<link href="'.$this->modx->getOption('manager_url',null,MODX_MANAGER_URL).'min/?f='.implode(',',$cssToCompress).'" rel="stylesheet" type="text/css" />';
+                $cssjs[] = '<link href="'.$this->modx->getOption('manager_url',null,MODX_MANAGER_URL).'min/index.php?f='.implode(',',$cssToCompress).'" rel="stylesheet" type="text/css" />';
             } else {
                 foreach ($cssToCompress as $scr) {
                     $cssjs[] = '<link href="'.$scr.'" rel="stylesheet" type="text/css" />';
@@ -650,7 +661,7 @@ abstract class modManagerController {
         }
         if (!empty($lastjs)) {
             if ($this->modx->getOption('compress_js',null,true)) {
-                $cssjs[] = '<script type="text/javascript" src="'.$this->modx->getOption('manager_url',null,MODX_MANAGER_URL).'min/?f='.implode(',',$lastjs).'"></script>';
+                $cssjs[] = '<script type="text/javascript" src="'.$this->modx->getOption('manager_url',null,MODX_MANAGER_URL).'min/index.php?f='.implode(',',$lastjs).'"></script>';
             } else {
                 foreach ($lastjs as $scr) {
                     $cssjs[] = '<script src="'.$scr.'" type="text/javascript"></script>';
@@ -722,7 +733,14 @@ abstract class modManagerController {
     public function checkFormCustomizationRules(&$obj = null,$forParent = false) {
         $overridden = array();
 
-        $userGroups = $this->modx->user->getUserGroups();
+        if ($this->modx->getOption('form_customization_use_all_groups',null,false)) {
+            $userGroups = $this->modx->user->getUserGroups();
+        } else {
+            $primaryGroup = $this->modx->user->getPrimaryGroup();
+            if ($primaryGroup) {
+                $userGroups = array($primaryGroup->get('id'));
+            }
+        }
         $c = $this->modx->newQuery('modActionDom');
         $c->innerJoin('modFormCustomizationSet','FCSet');
         $c->innerJoin('modFormCustomizationProfile','Profile','FCSet.profile = Profile.id');
@@ -816,7 +834,7 @@ abstract class modManagerController {
         $this->modx->lexicon->load($topic);
         $langTopics = $this->getPlaceholder('_lang_topics');
         $langTopics = explode(',',$langTopics);
-        $langTopics[] = 'analytics:default';
+        $langTopics[] = $topic;
         $langTopics = implode(',',$langTopics);
         $this->setPlaceholder('_lang_topics',$langTopics);
         return $langTopics;

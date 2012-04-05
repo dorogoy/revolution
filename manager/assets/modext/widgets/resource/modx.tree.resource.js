@@ -410,6 +410,7 @@ Ext.extend(MODx.tree.Resource,MODx.tree.Tree,{
         if (dropNode.attributes.type !== 'modContext' && targetParent.getDepth() <= 1 && e.point !== 'append') {
         	return false;
         }
+        if (targetParent.attributes.hide_children_in_tree) { return false; }
         
         return dropNode.attributes.text != 'root' && dropNode.attributes.text !== '' 
             && targetParent.attributes.text != 'root' && targetParent.attributes.text !== '';
@@ -436,15 +437,14 @@ Ext.extend(MODx.tree.Resource,MODx.tree.Tree,{
             class_key: cls
             ,context_key: ctx || 'web'
             ,'parent': p || 0
-            ,'template': this.getContextSettingForNode(this.cm.activeNode,ctx,'default_template',MODx.config.default_template)
-            ,'richtext': this.getContextSettingForNode(this.cm.activeNode,ctx,'richtext_default',MODx.config.richtext_default)
-            ,'hidemenu': this.getContextSettingForNode(this.cm.activeNode,ctx,'hidemenu_default',MODx.config.hidemenu_default)
-            ,'searchable': this.getContextSettingForNode(this.cm.activeNode,ctx,'search_default',MODx.config.search_default)
-            ,'cacheable': this.getContextSettingForNode(this.cm.activeNode,ctx,'cache_default',MODx.config.cache_default)
-            ,'published': this.getContextSettingForNode(this.cm.activeNode,ctx,'publish_default',MODx.config.publish_default)
-            ,'content_type': this.getContextSettingForNode(this.cm.activeNode,ctx,'default_content_type',MODx.config.default_content_type)
+            ,'template': parseInt(this.getContextSettingForNode(this.cm.activeNode,ctx,'default_template',MODx.config.default_template))
+            ,'richtext': parseInt(this.getContextSettingForNode(this.cm.activeNode,ctx,'richtext_default',MODx.config.richtext_default))
+            ,'hidemenu': parseInt(this.getContextSettingForNode(this.cm.activeNode,ctx,'hidemenu_default',MODx.config.hidemenu_default))
+            ,'searchable': parseInt(this.getContextSettingForNode(this.cm.activeNode,ctx,'search_default',MODx.config.search_default))
+            ,'cacheable': parseInt(this.getContextSettingForNode(this.cm.activeNode,ctx,'cache_default',MODx.config.cache_default))
+            ,'published': parseInt(this.getContextSettingForNode(this.cm.activeNode,ctx,'publish_default',MODx.config.publish_default))
+            ,'content_type': parseInt(this.getContextSettingForNode(this.cm.activeNode,ctx,'default_content_type',MODx.config.default_content_type))
         };
-
         if (this.cm.activeNode.attributes.type != 'modContext') {
             var t = this.cm.activeNode.getOwnerTree();
             var rn = t.getRootNode();
@@ -556,6 +556,12 @@ Ext.extend(MODx.tree.Resource,MODx.tree.Tree,{
         return m;
     }
 
+    ,overviewResource: function() {this.loadAction('a='+MODx.action['resource/data'])}
+    ,quickUpdateResource: function(itm,e) {
+        Ext.getCmp("modx-resource-tree").quickUpdate(itm,e,itm.classKey);
+    }
+    ,editResource: function() {this.loadAction('a='+MODx.action['resource/update']);}
+
     ,_getModResourceMenu: function(n) {
         var a = n.attributes;
         var ui = n.getUI();
@@ -569,25 +575,23 @@ Ext.extend(MODx.tree.Resource,MODx.tree.Tree,{
         if (ui.hasClass('pview')) {
             m.push({
                 text: _('resource_overview')
-                ,handler: function() {this.loadAction('a='+MODx.action['resource/data'])}
+                ,handler: this.overviewResource
             });
         }
         if (ui.hasClass('pedit')) {
             m.push({
                 text: _('resource_edit')
-                ,handler: function() {this.loadAction('a='+MODx.action['resource/update']);}
+                ,handler: this.editResource
             });
         }
         if (ui.hasClass('pqupdate')) {
             m.push({
                 text: _('quick_update_resource')
                 ,classKey: a.classKey
-                ,handler: function(itm,e) {
-                    Ext.getCmp("modx-resource-tree").quickUpdate(itm,e,itm.classKey);
-                }
+                ,handler: this.quickUpdateResource
             });
         }
-        if (ui.hasClass('pnew')) {
+        if (ui.hasClass('pduplicate')) {
             m.push({
                 text: _('resource_duplicate')
                 ,handler: this.duplicateResource
@@ -595,9 +599,7 @@ Ext.extend(MODx.tree.Resource,MODx.tree.Tree,{
         }
         m.push({
             text: _('resource_refresh')
-            ,handler: function() {
-                this.refreshNode(this.cm.activeNode.id);
-            }
+            ,handler: this.refreshResource
             ,scope: this
         });
 
@@ -641,6 +643,26 @@ Ext.extend(MODx.tree.Resource,MODx.tree.Tree,{
         return m;
     }
 
+    ,refreshResource: function() {
+        this.refreshNode(this.cm.activeNode.id);
+    }
+
+    ,createResourceHere: function(itm) {
+        var at = this.cm.activeNode.attributes;
+        var p = itm.usePk ? itm.usePk : at.pk;
+        Ext.getCmp('modx-resource-tree').loadAction(
+            'a='+MODx.action['resource/create']
+            + '&class_key='+itm.classKey
+            + '&parent='+p
+            + (at.ctx ? '&context_key='+at.ctx : '')
+        );
+    }
+    ,createResource: function(itm,e) {
+        var at = this.cm.activeNode.attributes;
+        var p = itm.usePk ? itm.usePk : at.pk;
+        Ext.getCmp('modx-resource-tree').quickCreate(itm,e,itm.classKey,at.ctx,p);
+    }
+
     ,_getCreateMenus: function(m,pk,ui) {
         var types = MODx.config.resource_classes;
         var o = this.fireEvent('loadCreateMenus',types);
@@ -660,40 +682,27 @@ Ext.extend(MODx.tree.Resource,MODx.tree.Tree,{
                 text: types[k]['text_create_here']
                 ,classKey: k
                 ,usePk: pk ? pk : false
-                ,handler: function(itm) {
-                    var at = this.cm.activeNode.attributes;
-                    var p = itm.usePk ? itm.usePk : at.pk;
-                    Ext.getCmp('modx-resource-tree').loadAction(
-                        'a='+MODx.action['resource/create']
-                        + '&class_key='+itm.classKey
-                        + '&parent='+p
-                        + (at.ctx ? '&context_key='+at.ctx : '')
-                    );
-                }
+                ,handler: this.createResourceHere
                 ,scope: this
             });
             if (ui && ui.hasClass('pqcreate')) {
                 qct.push({
                     text: types[k]['text_create']
                     ,classKey: k
-                    ,handler: function(itm,e) {
-                        var at = this.cm.activeNode.attributes;
-                        var p = itm.usePk ? itm.usePk : at.pk;
-                        Ext.getCmp('modx-resource-tree').quickCreate(itm,e,itm.classKey,at.ctx,p);
-                    }
+                    ,handler: this.createResource
                     ,scope: this
                 });
             }
         }
         m.push({
             text: _('create')
-            ,handler: function() {return false;}
+            ,handler: Ext.emptyFn
             ,menu: {items: ct}
         });
         if (ui && ui.hasClass('pqcreate')) {
             m.push({
                text: _('quick_create')
-               ,handler: function() {return false;}
+               ,handler: Ext.emptyFn
                ,menu: {items: qct}
             });
         }
@@ -775,6 +784,7 @@ MODx.window.QuickCreateResource = function(config) {
                             ,baseParams: {
                                 action: 'getList'
                                 ,combo: '1'
+                                ,limit: 0
                             }
                             ,value: MODx.config.default_template
                         },{
@@ -791,20 +801,20 @@ MODx.window.QuickCreateResource = function(config) {
                             ,anchor: '100%'
                         },{
                             xtype: 'xcheckbox'
+                            ,boxLabel: _('resource_hide_from_menus')
+                            ,description: _('resource_hide_from_menus_help')
+                            ,name: 'hidemenu'
+                            ,id: 'modx-'+this.ident+'-hidemenu'
+                            ,inputValue: 1
+                            ,checked: MODx.config.hidemenu_default == '1' ? 1 : 0
+                        },{
+                            xtype: 'xcheckbox'
                             ,name: 'published'
-                            ,id: 'modx-'+id+'-published'
+                            ,id: 'modx-'+this.ident+'-published'
                             ,boxLabel: _('resource_published')
                             ,description: _('resource_published_help')
                             ,inputValue: 1
                             ,checked: MODx.config.publish_default == '1' ? 1 : 0
-                        },{
-                            xtype: 'xcheckbox'
-                            ,boxLabel: _('resource_hide_from_menus')
-                            ,description: _('resource_hide_from_menus_help')
-                            ,name: 'hidemenu'
-                            ,id: 'modx-'+id+'-hidemenu'
-                            ,inputValue: 1
-                            ,checked: MODx.config.hidemenu_default == '1' ? 1 : 0
                         }]
                     }]
                 },MODx.getQRContentField(this.ident,config.record.class_key)]
@@ -910,6 +920,7 @@ MODx.window.QuickUpdateResource = function(config) {
                             ,baseParams: {
                                 action: 'getList'
                                 ,combo: '1'
+                                ,limit: 0
                             }
                         },{
                             xtype: 'textfield'
@@ -925,17 +936,17 @@ MODx.window.QuickUpdateResource = function(config) {
                             ,anchor: '100%'
                         },{
                             xtype: 'xcheckbox'
-                            ,name: 'published'
-                            ,id: 'modx-'+id+'-published'
-                            ,boxLabel: _('resource_published')
-                            ,description: _('resource_published_help')
-                            ,inputValue: 1
-                        },{
-                            xtype: 'xcheckbox'
                             ,boxLabel: _('resource_hide_from_menus')
                             ,description: _('resource_hide_from_menus_help')
                             ,name: 'hidemenu'
-                            ,id: 'modx-'+id+'-hidemenu'
+                            ,id: 'modx-'+this.ident+'-hidemenu'
+                            ,inputValue: 1
+                        },{
+                            xtype: 'xcheckbox'
+                            ,name: 'published'
+                            ,id: 'modx-'+this.ident+'-published'
+                            ,boxLabel: _('resource_published')
+                            ,description: _('resource_published_help')
                             ,inputValue: 1
                         }]
                     }]

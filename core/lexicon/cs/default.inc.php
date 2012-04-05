@@ -7,7 +7,7 @@
  * @subpackage lexicon
  *
  * @author modxcms.cz
- * @updated 2011-11-23
+ * @updated 2012-04-01
  */
 // $_lang['access'] = 'Access';
 $_lang['access'] = 'Přístup';
@@ -49,7 +49,7 @@ $_lang['add_plugin'] = 'Vytvořit plugin';
 $_lang['add_snippet'] = 'Vytvořit snippet';
 
 // $_lang['add_tag'] = 'Add tag';
-$_lang['add_tag'] = 'Přidat tag';
+$_lang['add_tag'] = 'Přidat štítek';
 
 // $_lang['add_template'] = 'Add Template';
 $_lang['add_template'] = 'Vytvořit šablonu';
@@ -441,6 +441,9 @@ $_lang['expand_all'] = 'Rozbalit vše';
 // $_lang['expand_tree'] = 'Expand tree';
 $_lang['expand_tree'] = 'Rozbalit strom';
 
+// $_lang['export'] = 'Export';
+$_lang['export'] = 'Exportovat';
+
 // $_lang['ext_afterpage'] = 'of {0}';
 $_lang['ext_afterpage'] = 'z {0}';
 
@@ -639,6 +642,15 @@ $_lang['icon'] = 'Ikona';
 // $_lang['id'] = 'ID';
 $_lang['id'] = 'ID';
 
+// $_lang['import'] = 'Import';
+$_lang['import'] = 'Importovat';
+
+// $_lang['import_err_upload'] = 'An error occurred while trying to find the XML file. Please specify a valid file.';
+$_lang['import_err_upload'] = 'Nastala chyba při hledání XML souboru. Vyberte platný soubor.';
+
+// $_lang['import_err_xml'] = 'An error occurred importing the XML file. Please ensure you specified a valid XML File.';
+$_lang['import_err_xml'] = 'Nastala chyba při importu XML souboru. Ujistěte se, že vybraný soubor je platný XML soubor.';
+
 // $_lang['info'] = 'Info';
 $_lang['info'] = 'Info';
 
@@ -728,6 +740,9 @@ $_lang['manager'] = 'Správce';
 
 // $_lang['manager_log_err_save'] = 'An error occurred while logging the manager action.';
 $_lang['manager_log_err_save'] = 'Nastala chyba při přihlašování.';
+
+// $_lang['media'] = 'Media';
+$_lang['media'] = 'Média';
 
 // $_lang['menu_order'] = 'Menu Order';
 $_lang['menu_order'] = 'Indexu';
@@ -901,7 +916,7 @@ $_lang['parameter'] = 'Parametr';
 $_lang['parameters'] = 'Parametry';
 
 // $_lang['parent'] = 'Parent';
-$_lang['parent'] = 'Parent';
+$_lang['parent'] = 'Rodič';
 
 // $_lang['password'] = 'Password';
 $_lang['password'] = 'Heslo';
@@ -926,6 +941,12 @@ $_lang['please_wait'] = 'Momentík...';
 
 // $_lang['plugin'] = 'Plugin';
 $_lang['plugin'] = 'Plugin';
+
+// $_lang['plugin_activate'] = 'Activate Plugin';
+$_lang['plugin_activate'] = 'Aktivovat plugin';
+
+// $_lang['plugin_deactivate'] = 'Deactivate Plugin';
+$_lang['plugin_deactivate'] = 'Deaktivovat plugin';
 
 // $_lang['plugins'] = 'Plugins';
 $_lang['plugins'] = 'Pluginy';
@@ -1021,7 +1042,7 @@ $_lang['quick_update_template'] = 'Rychlá úprava šablony';
 $_lang['quick_update_tv'] = 'Rychlá úprava template variable';
 
 // $_lang['rank'] = 'Rank';
-$_lang['rank'] = 'Rank';
+$_lang['rank'] = 'Pořadí';
 
 // $_lang['recent_docs'] = 'Recent documents';
 $_lang['recent_docs'] = 'Naposledy upravované dokumenty';
@@ -1192,7 +1213,7 @@ $_lang['save_changes'] = 'Uložit změny';
 $_lang['save_successful'] = 'Uložení proběhlo úspěšně.';
 
 // $_lang['save_tag'] = 'Save tag';
-$_lang['save_tag'] = 'Uložení tagu';
+$_lang['save_tag'] = 'Uložení štítku';
 
 // $_lang['saving'] = 'Saving...';
 $_lang['saving'] = 'Ukládám...';
@@ -1324,13 +1345,13 @@ $_lang['sysinfo_userid'] = 'Uživatel';
 $_lang['sys_alert'] = 'Systémová upozornění';
 
 // $_lang['symlink'] = 'Symlink';
-$_lang['symlink'] = 'Symlink';
+$_lang['symlink'] = 'Symbolický odkaz';
 
 // $_lang['system'] = 'System';
 $_lang['system'] = 'Systém';
 
 // $_lang['tag'] = 'Tag';
-$_lang['tag'] = 'Tag';
+$_lang['tag'] = 'Štítek';
 
 // $_lang['target'] = 'Target';
 $_lang['target'] = 'Cíl';
@@ -1399,7 +1420,7 @@ $_lang['tv_default_desc'] = 'Výchozí hodnota této TV pokud nebude nic vybrán
 $_lang['tv_elements'] = 'Hodnoty vstupu';
 
 // $_lang['tv_elements_desc'] = 'Option values for TVs with multiple selectable items, such as dropdown or tag.';
-$_lang['tv_elements_desc'] = 'Volitelné položky pro TVs s vícenásobným výběrem  jako rozbalovací menu nebo tag..';
+$_lang['tv_elements_desc'] = 'Volitelné položky pro TVs s vícenásobným výběrem  jako rozbalovací menu nebo štítek..';
 
 // $_lang['tv_type'] = 'Input Type';
 $_lang['tv_type'] = 'Typ vstupu';
@@ -1447,7 +1468,7 @@ $_lang['untitled_weblink'] = '_Bezejmenný webový odkaz';
 $_lang['untitled_symlink'] = '_Bezejmenný symbolický odkaz';
 
 // $_lang['update'] = 'Update';
-$_lang['update'] = 'Upravit';
+$_lang['update'] = 'Aktualizovat';
 
 // $_lang['updated'] = 'Updated';
 $_lang['updated'] = 'Aktualizováno';
@@ -1480,7 +1501,7 @@ $_lang['warning'] = 'Pozor!';
 $_lang['web_resources'] = 'Webové zdroje';
 
 // $_lang['weblink'] = 'Weblink';
-$_lang['weblink'] = 'Weblink';
+$_lang['weblink'] = 'Webový odkaz';
 
 // $_lang['which_editor_title'] = 'Editor to use:';
 $_lang['which_editor_title'] = 'Použít editor:';
