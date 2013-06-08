@@ -2,7 +2,7 @@
 /*
  * MODX Revolution
  *
- * Copyright 2006-2012 by MODX, LLC.
+ * Copyright 2006-2013 by MODX, LLC.
  * All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify it under
@@ -49,7 +49,7 @@ class modOutputFilter {
     /**
      * Filters the output
      * 
-     * @param mixed $element The element to filter
+     * @param modElement $element The element to filter
      */
     public function filter(&$element) {
         $usemb = function_exists('mb_strlen') && (boolean)$this->modx->getOption('use_multibyte',null,false);
@@ -316,8 +316,9 @@ class modOutputFilter {
 
                             /* ensure that filter correctly counts special chars */
                             $output = html_entity_decode($output,ENT_COMPAT,$encoding);
-                            $len = $usemb ? mb_strlen($output) : strlen($output);
+                            $len = $usemb ? mb_strlen($output,$encoding) : strlen($output);
                             if ($limit > $len) $limit = $len;
+                            if ($limit < 0) $limit = 0;
                             $breakpoint = $usemb ? mb_strpos($output," ",$limit,$encoding) : strpos($output, " ", $limit);
                             if (false !== $breakpoint) {
                                 if ($breakpoint < $len - 1) {
@@ -335,7 +336,11 @@ class modOutputFilter {
                                             $opened[] = $regs[0];
                                         }
                                     } elseif (preg_match("/^\/([a-z]+)$/i", $tag, $regs)) {
-                                        unset($opened[array_pop(array_keys($opened, $regs[1]))]);
+                                        $tmpArray = array_keys($opened, (string) $regs[1]);
+                                        $tmpVar = array_pop($tmpArray);
+                                        if ($tmpVar !== null) {
+                                            unset($opened[$tmpVar]);
+                                        }
                                     }
                                 }
                             }
@@ -355,19 +360,13 @@ class modOutputFilter {
                             $output = $tag;
                             break;
 
-                        case 'math':
-                            /* Returns the result of an advanced calculation (expensive) */
-                            $filter= preg_replace("~([a-zA-Z\n\r\t\s])~", "", $m_val);
-                            $filter= str_replace('?', $output, $filter);
-                            $output= eval("return " . $filter . ";");
-                            break;
-
                         case 'add':
                         case 'increment':
                         case 'incr':
                             /* Returns input incremented by option (default: +1) */
-                            if (empty($m_val))
+                            if (empty($m_val) && $m_val !== 0 && $m_val !== '0') {
                                 $m_val = 1;
+                            }
                             $output = (float)$output + (float)$m_val;
                             break;
 
@@ -375,24 +374,27 @@ class modOutputFilter {
                         case 'decrement':
                         case 'decr':
                             /* Returns input decremented by option (default: -1) */
-                            if (empty($m_val))
+                            if (empty($m_val) && $m_val !== 0 && $m_val !== '0') {
                                 $m_val = 1;
+                            }
                             $output = (float)$output - (float)$m_val;
                             break;
 
                         case 'multiply':
                         case 'mpy':
                             /* Returns input multiplied by option (default: *2) */
-                            if (empty($m_val))
+                            if (empty($m_val) && $m_val !== 0 && $m_val !== '0') {
                                 $m_val = 1;
+                            }
                             $output = (float)$output * (float)$m_val;
                             break;
 
                         case 'divide':
                         case 'div':
                             /* Returns input divided by option (default: /2) */
-                            if (empty($m_val))
+                            if (empty($m_val)) {
                                 $m_val = 2;
+                            }
                             if (!empty($output)) {
                                 $output = (float)$output / (float)$m_val;
                             } else {
@@ -533,7 +535,7 @@ class modOutputFilter {
                               $ago[] = $this->modx->lexicon('ago_minutes',array('time' => $agoTS['minutes']));
                             }
                             if (empty($ago)) { /* handle <1 min */
-                              $ago[] = $this->modx->lexicon('ago_seconds',array('time' => $agoTS['seconds']));
+                              $ago[] = $this->modx->lexicon('ago_seconds',array('time' => !empty($agoTS['seconds']) ? $agoTS['seconds'] : 0));
                             }
                             $output = implode(', ',$ago);
                             $output = $this->modx->lexicon('ago',array('time' => $output));
@@ -631,6 +633,8 @@ class modOutputFilter {
                     $this->modx->log(modX::LOG_LEVEL_ERROR,$e->getMessage());
                 }
             }
+            // convert $output to string if there were any processing
+            $output = (string)$output;
         }
     }
 

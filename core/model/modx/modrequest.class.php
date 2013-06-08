@@ -2,7 +2,7 @@
 /**
  * MODX Revolution
  *
- * Copyright 2006-2012 by MODX, LLC.
+ * Copyright 2006-2013 by MODX, LLC.
  * All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify it under
@@ -90,9 +90,9 @@ class modRequest {
             $this->modx->resourceMethod = $this->getResourceMethod();
             $this->modx->resourceIdentifier = $this->getResourceIdentifier($this->modx->resourceMethod);
             if ($this->modx->resourceMethod == 'id' && $this->modx->getOption('friendly_urls', null, false) && !$this->modx->getOption('request_method_strict', null, false)) {
-                $uri = array_search($this->modx->resourceIdentifier, $this->modx->aliasMap);
+                $uri = $this->modx->context->getResourceURI($this->modx->resourceIdentifier);
                 if (!empty($uri)) {
-                    if ($this->modx->resourceIdentifier == $this->modx->getOption('site_start', null, 1)) {
+                    if ((integer) $this->modx->resourceIdentifier === (integer) $this->modx->getOption('site_start', null, 1)) {
                         $url = $this->modx->getOption('site_url', null, MODX_SITE_URL);
                     } else {
                         $url = $this->modx->getOption('site_url', null, MODX_SITE_URL) . $uri;
@@ -108,8 +108,9 @@ class modRequest {
             $this->modx->resourceIdentifier = $this->_cleanResourceIdentifier($this->modx->resourceIdentifier);
         }
         if ($this->modx->resourceMethod == "alias") {
-            if (isset ($this->modx->aliasMap[$this->modx->resourceIdentifier])) {
-                $this->modx->resourceIdentifier = $this->modx->aliasMap[$this->modx->resourceIdentifier];
+            $found = $this->modx->findResource($this->modx->resourceIdentifier);
+            if ($found) {
+                $this->modx->resourceIdentifier = $found;
                 $this->modx->resourceMethod = 'id';
             } else {
                 $this->modx->sendErrorPage();
@@ -151,12 +152,14 @@ class modRequest {
      */
     public function getResourceMethod() {
         $method = '';
-        if ($this->modx->getOption('request_method_strict', null, false)) {
-            $method = $this->modx->getOption('friendly_urls', null, false) ? 'alias' : 'id';
-        } else {
-            if (isset ($_REQUEST[$this->modx->getOption('request_param_alias',null,'q')])) {
+        $hasId = isset($_REQUEST[$this->modx->getOption('request_param_id',null,'id')]);
+        $hasAlias = isset($_REQUEST[$this->modx->getOption('request_param_alias',null,'q')]);
+        if ($hasId || $hasAlias) {
+            if ($this->modx->getOption('request_method_strict', null, false)) {
+                $method = $this->modx->getOption('friendly_urls', null, false) ? 'alias' : 'id';
+            } elseif ($hasAlias) {
                 $method = "alias";
-            } elseif (isset ($_REQUEST[$this->modx->getOption('request_param_id',null,'id')])) {
+            } elseif ($hasId) {
                 $method = "id";
             }
         }
@@ -176,7 +179,7 @@ class modRequest {
     public function getResource($method, $identifier, array $options = array()) {
         $resource = null;
         if ($method == 'alias') {
-            $resourceId = $this->modx->aliasMap[$identifier];
+            $resourceId = $this->modx->findResource($identifier);
         } else {
             $resourceId = $identifier;
         }
@@ -198,7 +201,7 @@ class modRequest {
             if ($resource) {
                 $resource->fromArray($cachedResource['resource'], '', true, true, true);
                 $resource->_content = $cachedResource['resource']['_content'];
-                $resource->_isForward = isset($cachedResource['resource']['_isForward']) && !empty($cachedResource['resource']['_isForward']);
+                $resource->_isForward = $isForward;
                 if (isset($cachedResource['contentType'])) {
                     $contentType = $this->modx->newObject('modContentType');
                     $contentType->fromArray($cachedResource['contentType'], '', true, true, true);
@@ -226,7 +229,9 @@ class modRequest {
             $criteria = $this->modx->newQuery('modResource');
             $criteria->select(array($this->modx->escape('modResource').'.*'));
             $criteria->where(array('id' => $resourceId, 'deleted' => '0'));
-            if (!$this->modx->hasPermission('view_unpublished')) $criteria->where(array('published' => 1));
+            if (!$this->modx->hasPermission('view_unpublished') || $this->modx->getSessionState() !== modX::SESSION_STATE_INITIALIZED) {
+                $criteria->where(array('published' => 1));
+            }
             if ($resource = $this->modx->getObject('modResource', $criteria)) {
                 if ($resource instanceof modResource) {
                     if ($resource->get('context_key') !== $this->modx->context->get('key')) {
@@ -256,7 +261,7 @@ class modRequest {
                 }
             }
         } elseif ($fromCache && $resource instanceof modResource && !$resource->get('deleted')) {
-            if ($resource->checkPolicy('load') && ($resource->get('published') || $this->modx->hasPermission('view_unpublished'))) {
+            if ($resource->checkPolicy('load') && ($resource->get('published') || ($this->modx->getSessionState() === modX::SESSION_STATE_INITIALIZED && $this->modx->hasPermission('view_unpublished')))) {
                 if ($resource->get('context_key') !== $this->modx->context->get('key')) {
                     if (!$isForward || ($isForward && !$this->modx->getOption('allow_forward_across_contexts', $options, false))) {
                         if (!$this->modx->getCount('modContextResource', array($this->modx->context->get('key'), $resourceId))) {
@@ -314,33 +319,42 @@ class modRequest {
         }
         elseif ($this->modx->getOption('friendly_urls', null, false) && $this->modx->resourceMethod = 'alias') {
             $containerSuffix = trim($this->modx->getOption('container_suffix', null, ''));
-            if (!isset ($this->modx->aliasMap[$identifier])) {
-                if (!empty ($containerSuffix)) {
-                    $suffixPos = strpos($identifier, $containerSuffix);
-                    $suffixLen = strlen($containerSuffix);
-                    $identifierLen = strlen($identifier);
-                    if (substr($identifier, $identifierLen - $suffixLen) === $containerSuffix) {
-                        $identifier = substr($identifier, 0, $identifierLen - $suffixLen);
-                    }
-                    elseif (isset ($this->modx->aliasMap["{$identifier}{$containerSuffix}"])) {
-                        $identifier = "{$identifier}{$containerSuffix}";
-                    }
-                    if (isset ($this->modx->aliasMap[$identifier])) {
-                        $url = $this->modx->makeUrl($this->modx->aliasMap[$identifier], '', '', 'full');
-                        $this->modx->sendRedirect($url, array('responseCode' => 'HTTP/1.1 301 Moved Permanently'));
-                    }
-                    $this->modx->resourceMethod = 'alias';
+            $found = $this->modx->findResource($identifier);
+            if ($found === false && !empty ($containerSuffix)) {
+                $suffixLen = strlen($containerSuffix);
+                $identifierLen = strlen($identifier);
+                if (substr($identifier, $identifierLen - $suffixLen) === $containerSuffix) {
+                    $identifier = substr($identifier, 0, $identifierLen - $suffixLen);
+                    $found = $this->modx->findResource($identifier);
+                } else {
+                    $identifier = "{$identifier}{$containerSuffix}";
+                    $found = $this->modx->findResource("{$identifier}{$containerSuffix}");
                 }
-            }
-            elseif ($this->modx->getOption('site_start', null, 1) == $this->modx->aliasMap[$identifier]) {
-                $this->modx->sendRedirect($this->modx->getOption('site_url', null, MODX_SITE_URL), array('responseCode' => 'HTTP/1.1 301 Moved Permanently'));
-            } else {
-                $requestUri = preg_replace('/\?.*/', '', $_SERVER['REQUEST_URI']);
-                if ($this->modx->getOption('base_url', null, MODX_BASE_URL) . $identifier !== $requestUri) {
+                if ($found) {
                     $parameters = $this->getParameters();
                     unset($parameters[$this->modx->getOption('request_param_alias')]);
-                    $url = $this->modx->makeUrl($this->modx->aliasMap[$identifier], '', $parameters, 'full');
+                    $url = $this->modx->makeUrl($found, $this->modx->context->get('key'), $parameters, 'full');
                     $this->modx->sendRedirect($url, array('responseCode' => 'HTTP/1.1 301 Moved Permanently'));
+                }
+                $this->modx->resourceMethod = 'alias';
+            } elseif ((integer) $this->modx->getOption('site_start', null, 1) === $found) {
+                $parameters = $this->getParameters();
+                unset($parameters[$this->modx->getOption('request_param_alias')]);
+                $url = $this->modx->makeUrl($this->modx->getOption('site_start', null, 1), $this->modx->context->get('key'), $parameters, 'full');
+                $this->modx->sendRedirect($url, array('responseCode' => 'HTTP/1.1 301 Moved Permanently'));
+            } else {
+                if ($this->modx->getOption('friendly_urls_strict', null, false)) {
+                    $requestUri = $_SERVER['REQUEST_URI'];
+                    $qsPos = strpos($requestUri, '?');
+                    if ($qsPos !== false) $requestUri = substr($requestUri, 0, $qsPos);
+                    $fullId = $this->modx->getOption('base_url', null, MODX_BASE_URL) . $identifier;
+                    $requestUri = urldecode($requestUri);
+                    if ($fullId !== $requestUri && strpos($requestUri, $fullId) !== 0) {
+                        $parameters = $this->getParameters();
+                        unset($parameters[$this->modx->getOption('request_param_alias')]);
+                        $url = $this->modx->makeUrl($found, $this->modx->context->get('key'), $parameters, 'full');
+                        $this->modx->sendRedirect($url, array('responseCode' => 'HTTP/1.1 301 Moved Permanently'));
+                    }
                 }
                 $this->modx->resourceMethod = 'alias';
             }
@@ -355,7 +369,7 @@ class modRequest {
      */
     public function sanitizeRequest() {
         $modxtags = array_values($this->modx->sanitizePatterns);
-        modX :: sanitize($_GET, $modxtags, 0);
+        modX :: sanitize($_GET, $modxtags);
         if ($this->modx->getOption('allow_tags_in_post',null,true)) {
             modX :: sanitize($_POST);
         } else {
@@ -466,7 +480,7 @@ class modRequest {
             xPDO::OPT_CACHE_HANDLER => $this->modx->getOption('cache_auto_publish_handler', null, $this->modx->getOption(xPDO::OPT_CACHE_HANDLER))
         ));
         if ($cacheRefreshTime > 0) {
-            $timeNow= time() + $this->modx->getOption('server_offset_time', null, 0);
+            $timeNow= time();
             if ($cacheRefreshTime <= $timeNow) {
                 $this->modx->cacheManager->refresh();
             }
@@ -475,6 +489,9 @@ class modRequest {
 
     /**
      * Get a list of all modAction IDs
+     *
+     * @deprecated Has no meaning in 2.3; will be removed in 2.4/3.0
+     *
      * @param string $namespace
      * @return array
      */
@@ -561,7 +578,7 @@ class modRequest {
 
     /**
      * Get the true client IP. Returns an array of values:
-     * 
+     *
      * * ip - The real, true client IP
      * * suspected - The suspected IP, if not alike to REMOTE_ADDR
      * * network - The client's network IP

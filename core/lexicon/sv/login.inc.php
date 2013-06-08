@@ -6,6 +6,7 @@
  * @package modx
  * @subpackage lexicon
  */
+$_lang['login_language'] = 'Språk';
 $_lang['login_activation_key_err'] = 'Aktiveringsnyckeln stämmer inte! Kontrollera ditt aktiveringsmeddelande och försäkra dig om att du laddade rätt URL.';
 $_lang['login_blocked_admin'] = 'Du har blivit blockerad från hanteraren av en administratör.';
 $_lang['login_blocked_error'] = 'Du är tillfälligt blockerad och kan inte logga in. Försök senare.';
@@ -14,7 +15,7 @@ $_lang['login_blocked_time'] = 'Du får inte logga in just nu. Försök senare.'
 $_lang['login_blocked_too_many_attempts'] = 'Du har blivit blockerad på grund av för många felaktiga inloggningsförsök.';
 $_lang['login_button'] = 'Logga in';
 $_lang['login_cannot_locate_account'] = 'Det kontot kan inte lokaliseras. Kontrollera användarnamnet och skriv om lösenordet för att försöka igen.';
-$_lang['login_copyright'] = '&copy; 2005-2012 av <a href="http://modx.com/about/" target="_blank">MODX, LLC</a>. MODX Revolution&trade; är licensierad under GPLv2 eller senare.';
+$_lang['login_copyright'] = '&copy; 2005-2013 av <a href="http://modx.com/about/" target="_blank">MODX, LLC</a>. MODX Revolution&trade; är licensierad under GPLv2 eller senare.';
 $_lang['login_email_label'] = 'Kontots e-postadress:';
 $_lang['login_err_unknown'] = 'Ett okänt fel inträffade när du försökte logga in.';
 $_lang['login_forget_your_login'] = 'Glömt dina inloggningsuppgifter?';

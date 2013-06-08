@@ -85,6 +85,7 @@ MODx.grid.User = function(config) {
             header: _('user_block')
             ,dataIndex: 'blocked'
             ,width: 80
+            ,sortable: true
             ,editor: { xtype: 'combo-boolean', renderer: 'boolean' }
         }]
         ,tbar: [{
@@ -177,6 +178,13 @@ Ext.extend(MODx.grid.User,MODx.grid.Grid,{
                     ,handler: this.updateUser
                 });
             }
+            if (p.indexOf('pcopy') != -1) {
+                if (m.length > 0) m.push('-');
+                m.push({
+                    text: _('user_duplicate')
+                    ,handler: this.duplicateUser
+                });
+            }
             if (p.indexOf('premove') != -1) {
                 if (m.length > 0) m.push('-');
                 m.push({
@@ -191,7 +199,7 @@ Ext.extend(MODx.grid.User,MODx.grid.Grid,{
     }
 
     ,createUser: function() {
-        location.href = 'index.php?a='+MODx.action['security/user/create'];
+        MODx.loadPage(MODx.action['security/user/create']);
     }
 
     ,activateSelected: function() {
@@ -253,7 +261,7 @@ Ext.extend(MODx.grid.User,MODx.grid.Grid,{
         });
         return true;
     }
-    
+
     ,removeUser: function() {
         MODx.msg.confirm({
             title: _('user_remove')
@@ -268,11 +276,24 @@ Ext.extend(MODx.grid.User,MODx.grid.Grid,{
             }
         });
     }
-    
-    ,updateUser: function() {
-        location.href = 'index.php?a='+MODx.action['security/user/update']+'&id='+this.menu.record.id;
+
+    ,duplicateUser: function() {
+        MODx.Ajax.request({
+            url: this.config.url
+            ,params: {
+                action: 'duplicate'
+                ,id: this.menu.record.id
+            }
+            ,listeners: {
+            	'success': {fn:this.refresh,scope:this}
+            }
+        });
     }
-    				
+
+    ,updateUser: function() {
+        MODx.loadPage(MODx.action['security/user/update'], 'id='+this.menu.record.id);
+    }
+
     ,rendGender: function(d,c) {
         switch(d.toString()) {
             case '0':

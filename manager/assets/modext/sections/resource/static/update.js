@@ -1,6 +1,6 @@
 /**
  * Loads the update static resource page
- * 
+ *
  * @class MODx.page.UpdateStatic
  * @extends MODx.Component
  * @param {Object} config An object of config properties
@@ -12,7 +12,7 @@ MODx.page.UpdateStatic = function(config) {
     Ext.apply(config.record,{
         'parent-cmb': config.record['parent']
     });
-        
+
     Ext.applyIf(config,{
         url: MODx.config.connectors_url+'resource/index.php'
         ,which_editor: 'none'
@@ -20,10 +20,10 @@ MODx.page.UpdateStatic = function(config) {
         ,id: 'modx-page-update-resource'
         ,action: 'update'
         ,actions: {
-            'new': MODx.action['resource/create']
-            ,edit: MODx.action['resource/update']
-            ,preview: MODx.action['resource/preview']
-            ,cancel: MODx.action['welcome']
+            'new': 'resource/create'
+            ,edit: 'resource/update'
+            ,preview: 'resource/preview'
+            ,cancel: 'welcome'
         }
         ,components: [{
             xtype: 'modx-panel-static'
@@ -33,6 +33,7 @@ MODx.page.UpdateStatic = function(config) {
             ,publish_document: config.publish_document
             ,access_permissions: config.access_permissions
             ,show_tvs: config.show_tvs
+            ,url: config.url
         }]
         ,loadStay: true
         ,buttons: this.getButtons(config)
@@ -44,7 +45,7 @@ Ext.extend(MODx.page.UpdateStatic,MODx.Component,{
         window.open(this.config.preview_url);
         return false;
     }
-    
+
     ,duplicateResource: function(btn,e) {
         MODx.msg.confirm({
             text: _('resource_duplicate_confirm')
@@ -55,7 +56,7 @@ Ext.extend(MODx.page.UpdateStatic,MODx.Component,{
             }
             ,listeners: {
                 success: {fn:function(r) {
-                    location.href = '?a='+MODx.action['resource/update']+'&id='+r.object.id;
+                    MODx.loadPage(MODx.action['resource/update'], 'id='+r.object.id);
                 },scope:this}
             }
         });
@@ -71,7 +72,7 @@ Ext.extend(MODx.page.UpdateStatic,MODx.Component,{
             }
             ,listeners: {
                 success: {fn:function(r) {
-                    location.href = '?a='+MODx.action['resource/update']+'&id='+r.object.id;
+                    MODx.loadPage(MODx.action['resource/update'], 'id='+r.object.id);
                 },scope:this}
             }
         });
@@ -84,12 +85,12 @@ Ext.extend(MODx.page.UpdateStatic,MODx.Component,{
                 if (e == 'yes') {
                     MODx.releaseLock(MODx.request.id);
                     MODx.sleep(400);
-                    location.href = '?a='+MODx.action['welcome'];                    
+                    MODx.loadPage(MODx.action['welcome']);
                 }
             },this);
         } else {
             MODx.releaseLock(MODx.request.id);
-            location.href = '?a='+MODx.action['welcome'];
+            MODx.loadPage(MODx.action['welcome']);
         }
     }
     ,getButtons: function(cfg) {
@@ -100,7 +101,7 @@ Ext.extend(MODx.page.UpdateStatic,MODx.Component,{
                 ,id: 'modx-abtn-save'
                 ,text: _('save')
                 ,method: 'remote'
-                ,checkDirty: cfg.richtext || MODx.request.activeSave == 1 ? false : true
+                ,checkDirty: cfg.richtext || MODx.request.reload ? false : true
                 ,keys: [{
                     key: MODx.config.keymap_save || 's'
                     ,ctrl: true

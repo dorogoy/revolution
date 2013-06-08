@@ -2,7 +2,7 @@
 /*
  * MODX Revolution
  *
- * Copyright 2006-2012 by MODX, LLC.
+ * Copyright 2006-2013 by MODX, LLC.
  * All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify it under
@@ -857,7 +857,7 @@ class modElement extends modAccessibleSimpleObject {
         $sourceFile = $this->getSourceFile();
         if ($sourceFile) {
             if (file_exists($sourceFile)) {
-                $isMutable = is_writable($sourceFile);
+                $isMutable = is_writable($sourceFile) && !is_dir($sourceFile);
             } else {
                 $sourceDir = dirname($sourceFile);
                 $i = 100;

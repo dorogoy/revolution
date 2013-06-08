@@ -7,7 +7,7 @@
  * @subpackage lexicon
  *
  * @author modxcms.cz
- * @updated 2012-04-01
+ * @updated 2013-04-07
  */
 // $_lang['area'] = 'Area';
 $_lang['area'] = 'Oblast';
@@ -225,11 +225,11 @@ $_lang['setting_allow_manager_login_forgot_password'] = 'Zobrazit možnost "Zapo
 // $_lang['setting_allow_manager_login_forgot_password_desc'] = 'Setting this to "No" will disable the forgot password ability on the manager login screen.';
 $_lang['setting_allow_manager_login_forgot_password_desc'] = 'Nastavení na "Ne", znemožníte možnost nechat si zaslat zapomenuté hesla na přihlašovací obrazovce správce obsahu.';
 
-// $_lang['setting_allow_tags_in_post'] = 'Allow HTML Tags in POST';
-$_lang['setting_allow_tags_in_post'] = 'Povolit HTML tagy v POST';
+// $_lang['setting_allow_tags_in_post'] = 'Allow Tags in POST';
+$_lang['setting_allow_tags_in_post'] = 'Povolit tagy v POST';
 
-// $_lang['setting_allow_tags_in_post_desc'] = 'If false, all POST actions within the manager will strip out any tags. MODX Recommends to leave this set at true.';
-$_lang['setting_allow_tags_in_post_desc'] = 'Je-li nastaveno "Ne", z obsahu POST proměnných v rámci správce obsahu budou odstraněny všechny HTML tagy. Doporučujeme nechat tuto hodnotu na "Ano".';
+// $_lang['setting_allow_tags_in_post_desc'] = 'If false, all POST variables will be stripped of HTML script tags, numeric entities, and MODX tags. MODX recommends to leave this set to false for Contexts other than mgr, where it is set to true by default.';
+$_lang['setting_allow_tags_in_post_desc'] = 'Je-li nastaveno "Ne", z obsahu POST proměnných v rámci správce obsahu budou odstraněny všechny HTML tagy, číselné entity a MODX tagy. Doporučujeme nechat tuto hodnotu na "Ne" pro jiné kontexty než "mgr", kde je ve výchozím stavu povolen.';
 
 // $_lang['setting_archive_with'] = 'Force PCLZip Archives';
 $_lang['setting_archive_with'] = 'Používat PCLZip archivaci';
@@ -281,6 +281,12 @@ $_lang['setting_blocked_minutes_desc'] = 'Počet minut, po které bude uživatel
 
 // $_lang['setting_cache_action_map'] = 'Enable Action Map Cache';
 $_lang['setting_cache_action_map'] = 'Povolit cache mapy akcí';
+
+// $_lang['setting_cache_alias_map'] = 'Enable Context Alias Map Cache';
+$_lang['setting_cache_alias_map'] = 'Povolit cache mapy aliasů v rámci kontextu';
+
+// $_lang['setting_cache_alias_map_desc'] = 'When enabled, all Resource URIs are cached into the Context. Enable on smaller sites and disable on larger sites for better performance.';
+$_lang['setting_cache_alias_map_desc'] = 'Je-li nastaveno "Ano", URI všech dokumentů jsou ukládány do cache kontextu. Pro lepší výkon toto povolte na menších a zakažte na rozsáhlejších portálech.';
 
 // $_lang['setting_cache_action_map_desc'] = 'When enabled, actions (or controller maps) will be cached to reduce manager page load times.';
 $_lang['setting_cache_action_map_desc'] = 'Je-li nastaveno "Ano", akce (nebo kontrolní mapy) budou ukládány do cache a tím se zkrátí doba načítání správce obsahu.';
@@ -697,13 +703,19 @@ $_lang['setting_friendly_alias_word_delimiters'] = 'Povolené oddělovače slov'
 $_lang['setting_friendly_alias_word_delimiters_desc'] = 'Znaky, které budou použity jako oddělovače slov při vytváření přátelských URL.';
 
 // $_lang['setting_friendly_urls'] = 'Use Friendly URLs';
-$_lang['setting_friendly_urls'] = 'Používat přátelská URL';
+$_lang['setting_friendly_urls'] = 'Používat přátelské URL';
 
 // $_lang['setting_friendly_urls_desc'] = 'This allows you to use search engine friendly URLs with MODX. Please note, this only works for MODX installations running on Apache, and you'll need to write a .htaccess file for this to work. See the .htaccess file included in the distribution for more info.';
-$_lang['setting_friendly_urls_desc'] = 'Nastavení zda má MODX používat přátelská URL (lepší pro zpracování vyhledávači). Toto nastavení funguje pouze pro MODX instalace běžící serveru Apache, pro správnou funkčnost je také nutné nastavit soubor .htaccess. Pro více informací náhledněte do souboru .htaccess přiloženého v MODX distribuci.';
+$_lang['setting_friendly_urls_desc'] = 'Nastavení zda má MODX používat přátelské URL (lepší pro zpracování vyhledávači). Toto nastavení funguje pouze pro MODX instalace běžící serveru Apache, pro správnou funkčnost je také nutné nastavit soubor .htaccess. Pro více informací náhledněte do souboru .htaccess přiloženého v MODX distribuci.';
 
 // $_lang['setting_friendly_urls_err'] = 'Please state whether or not you want to use friendly URLs.';
 $_lang['setting_friendly_urls_err'] = 'Zvolte zda chcete používat přátelská URL či nikoli.';
+
+// $_lang['setting_friendly_urls_strict'] = 'Use Strict Friendly URLs';
+$_lang['setting_friendly_urls_strict'] = 'Používat striktní přátelské URL';
+
+// $_lang['setting_friendly_urls_strict_desc'] = 'When friendly URLs are enabled, this option forces non-canonical requests that match a Resource to 301 redirect to the canonical URI for that Resource. WARNING: Do not enable if you use custom rewrite rules which do not match at least the beginning of the canonical URI. For example, a canonical URI of foo/ with custom rewrites for foo/bar.html would work, but attempts to rewrite bar/foo.html as foo/ would force a redirect to foo/ with this option enabled.';
+$_lang['setting_friendly_urls_strict_desc'] = 'Pokud používáte přátelské URL, pak tato volba vynutí při ne-kánonickém dotazu, který odpovídá některému dokumentu přesměrování 301 na jeho kánonickou URI. POZOR: Nepoužívejte pokud používáte vlastní přepisovací pravidla, která nezachycují kánonické URI od začátku. Například: kánonické URI foo/ s vlastní přepisem na foo/bar.html bude fungovat, ale pokus o přepsání bar/foo.html na foo/ vynutí přesměrování na foo/ pokud je tato volba aktivní.';
 
 // $_lang['setting_global_duplicate_uri_check'] = 'Check for Duplicate URIs Across All Contexts';
 $_lang['setting_global_duplicate_uri_check'] = 'Kontrola duplicitních URI napříč kontexty';
@@ -916,6 +928,12 @@ $_lang['setting_manager_use_tabs'] = 'Používat záložky ve správci obsahu';
 // $_lang['setting_manager_use_tabs_desc'] = 'If true, the manager will use tabs for rendering the content panes. Otherwise, it will use portals.';
 $_lang['setting_manager_use_tabs_desc'] = 'Je-li aktivní, správce obsahu použije pro vykreslení obsahu záložky, jinak budou panely vykresleny pod sebou.';
 
+// $_lang['setting_manager_week_start'] = 'Week start';
+$_lang['setting_manager_week_start'] = 'Začátek týdne';
+
+// $_lang['setting_manager_week_start_desc'] = 'Define the day starting the week. Use 0 (or leave empty) for sunday, 1 for monday and so on...';
+$_lang['setting_manager_week_start_desc'] = 'Určuje den, kterým začíná týden. 0 nebo prázdné pole je neděle, 1 pondělí, atd. ';
+
 // $_lang['setting_modRequest.class'] = 'Request Handler Class';
 $_lang['setting_modRequest.class'] = 'Třída obsluhy dotazu';
 
@@ -1061,7 +1079,7 @@ $_lang['setting_phpthumb_imagemagick_path'] = 'phpThumb Cesta k ImageMagick';
 $_lang['setting_phpthumb_imagemagick_path_desc'] = 'Volitelné. Nastavení cesty k ImageMagick pro alternativní generování náhledů pomocí phpThumb, pokud není ve výchozím nastavení PHP.';
 
 // $_lang['setting_phpthumb_nohotlink_enabled'] = 'phpThumb Hotlinking Disabled';
-$_lang['setting_phpthumb_nohotlink_enabled'] = 'phpThumb Hotlinking: vypnut';
+$_lang['setting_phpthumb_nohotlink_enabled'] = 'phpThumb Hotlinking: aktivní';
 
 // $_lang['setting_phpthumb_nohotlink_enabled_desc'] = 'Remote servers are allowed in the src parameter unless you disable hotlinking in phpThumb.';
 $_lang['setting_phpthumb_nohotlink_enabled_desc'] = 'Vzdálené servery jsou povoleny v atributu src jestliže, není tato volba nastavena na "Ne".';
@@ -1257,6 +1275,12 @@ $_lang['setting_session_cookie_secure'] = 'Zabezpečení session cookie';
 
 // $_lang['setting_session_cookie_secure_desc'] = 'Enable this setting to use secure session cookies.';
 $_lang['setting_session_cookie_secure_desc'] = 'Aktivací této možnosti dojde k zabezpečení session cookie.';
+
+// $_lang['setting_session_cookie_httponly'] = 'Session Cookie HttpOnly';
+$_lang['setting_session_cookie_httponly'] = 'Session Cookie HttpOnly';
+
+// $_lang['setting_session_cookie_httponly_desc'] = 'Use this setting to set the HttpOnly flag on session cookies.';
+$_lang['setting_session_cookie_httponly_desc'] = 'Povolte toto nastavení pro nastavení příznaku HttpOnly v session cookies.';
 
 // $_lang['setting_session_gc_maxlifetime'] = 'Session Garbage Collector Max Lifetime';
 $_lang['setting_session_gc_maxlifetime'] = 'Maximální životnost Session Garbage Collectoru';
@@ -1521,3 +1545,9 @@ $_lang['setting_xhtml_urls'] = 'XHTML URLs';
 
 // $_lang['setting_xhtml_urls_desc'] = 'If set to true, all URLs generated by MODX will be XHTML-compliant, including encoding of the ampersand character.';
 $_lang['setting_xhtml_urls_desc'] = 'Pokud je nastaveno na Ano, všechny odkazy, které generuje MODX budou v souladu s xHTML včetně zakódování ampersandů.';
+
+// $_lang['setting_default_context'] = 'Default Context';
+$_lang['setting_default_context'] = 'Výchozí kontext';
+
+// $_lang['setting_default_context_desc'] = 'Select the default Context you wish to use for new Resources.';
+$_lang['setting_default_context_desc'] = 'Zvolte jaký kontext má být předvybraný při vytváření nového dokumentu.';

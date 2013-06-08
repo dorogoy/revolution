@@ -2,7 +2,7 @@
 /**
  * MODX Revolution
  *
- * Copyright 2006-2012 by MODX, LLC.
+ * Copyright 2006-2013 by MODX, LLC.
  * All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify it under
@@ -88,12 +88,12 @@ class modResponse {
                 /* Insert Startup jscripts & CSS scripts into template - template must have a </head> tag */
                 if (($js= $this->modx->getRegisteredClientStartupScripts()) && (strpos($this->modx->resource->_output, '</head>') !== false)) {
                     /* change to just before closing </head> */
-                    $this->modx->resource->_output= preg_replace("/(<\/head>)/i", $js . "\n\\1", $this->modx->resource->_output);
+                    $this->modx->resource->_output= preg_replace("/(<\/head>)/i", $js . "\n\\1", $this->modx->resource->_output,1);
                 }
 
                 /* Insert jscripts & html block into template - template must have a </body> tag */
                 if ((strpos($this->modx->resource->_output, '</body>') !== false) && ($js= $this->modx->getRegisteredClientScripts())) {
-                    $this->modx->resource->_output= preg_replace("/(<\/body>)/i", $js . "\n\\1", $this->modx->resource->_output);
+                    $this->modx->resource->_output= preg_replace("/(<\/body>)/i", $js . "\n\\1", $this->modx->resource->_output,1);
                 }
             }
 
@@ -144,7 +144,7 @@ class modResponse {
                     }
                 }
                 if (!$dispositionSet && $this->modx->resource->get('content_dispo')) {
-                    if ($alias= array_search($this->modx->resourceIdentifier, $this->modx->aliasMap)) {
+                    if ($alias= $this->modx->resource->get('uri')) {
                         $name= basename($alias);
                     } elseif ($this->modx->resource->get('alias')) {
                         $name= $this->modx->resource->get('alias');

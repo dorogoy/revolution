@@ -19,7 +19,7 @@
  * @property string $properties An array of default properties for this TV
  * @property string $input_properties An array of input properties related to the rendering of the input of this TV
  * @property string $output_properties An array of output properties related to the rendering of the output of this TV
- * 
+ *
  * @todo Refactor this to allow user-defined and configured input and output
  * widgets.
  * @see modTemplateVarResource
@@ -45,6 +45,13 @@ class modTemplateVar extends modElement {
     );
     /** @var modX $xpdo */
     public $xpdo;
+
+    /**
+     * A cache for modTemplateVar::getRenderDirectories()
+     * @see getRenderDirectories()
+     * @var array $_renderPaths
+     */
+    private static $_renderPaths = array();
 
     /**
      * Creates a modTemplateVar instance, and sets the token of the class to *
@@ -309,14 +316,20 @@ class modTemplateVar extends modElement {
      * Renders input forms for the template variable.
      *
      * @access public
-     * @param integer $resourceId The id of the resource; 0 defaults to the
-     * current resource.
+     * @param modResource|null $resource The resource; 0 defaults to the current resource.
      * @param mixed $options Array of options ('value', 'style') or deprecated $style string
      * @return mixed The rendered input for the template variable.
      */
-    public function renderInput($resourceId= 0, $options) {
+    public function renderInput($resource= null, $options = array()) {
+        if (is_int($resource)) {
+            $resource = $this->xpdo->getObject('modResource',$resource);
+        }
+        if (empty($resource)) {
+            $resource = $this->xpdo->resource;
+        }
+        $resourceId = $resource ? $resource->get('id') : 0;
 
-        if(is_string($options) && !empty($options)) {
+        if (is_string($options) && !empty($options)) {
             // fall back to deprecated $style setting
             $style = $options;
         } else {
@@ -340,7 +353,7 @@ class modTemplateVar extends modElement {
         }
 
         /* if any FC tvDefault rules, set here */
-        $value = $this->checkForFormCustomizationRules($value,$resourceId);
+        $value = $this->checkForFormCustomizationRules($value,$resource);
         /* properly set value back if any FC rules, resource values, or bindings have adjusted it */
         $this->set('value',$value);
         $this->set('processedValue',$value);
@@ -482,14 +495,21 @@ class modTemplateVar extends modElement {
      * @return array The found render directories
      */
     public function getRenderDirectories($event,$subdir) {
-        $renderPath = $this->xpdo->getOption('processors_path').'element/tv/renders/'.$this->xpdo->context->get('key').'/'.$subdir.'/';
+        $context = $this->xpdo->context->get('key');
+        $renderPath = $this->xpdo->getOption('processors_path').'element/tv/renders/'.$context.'/'.$subdir.'/';
         $renderDirectories = array(
             $renderPath,
             $this->xpdo->getOption('processors_path').'element/tv/renders/'.($subdir == 'input' ? 'mgr' : 'web').'/'.$subdir.'/',
         );
         $pluginResult = $this->xpdo->invokeEvent($event,array(
-            'context' => $this->xpdo->context->get('key'),
+            'context' => $context,
         ));
+        $pathsKey = serialize($pluginResult).$context.$event.$subdir;
+        /* return cached value if exists */
+        if (isset(self::$_renderPaths[$pathsKey])) {
+            return self::$_renderPaths[$pathsKey];
+        }
+        /* process if there is no cached value */
         if (!is_array($pluginResult) && !empty($pluginResult)) { $pluginResult = array($pluginResult); }
         if (!empty($pluginResult)) {
             foreach ($pluginResult as $result) {
@@ -499,7 +519,6 @@ class modTemplateVar extends modElement {
         }
 
         /* search directories */
-        $types = array();
         $renderPaths = array();
         foreach ($renderDirectories as $renderDirectory) {
             if (empty($renderDirectory) || !is_dir($renderDirectory)) continue;
@@ -511,22 +530,20 @@ class modTemplateVar extends modElement {
                 }
             } catch (UnexpectedValueException $e) {}
         }
-        $renderPaths = array_unique($renderPaths);
-        return $renderPaths;
+        self::$_renderPaths[$pathsKey] = array_unique($renderPaths);
+        return self::$_renderPaths[$pathsKey];
     }
 
     /**
      * Check for any Form Customization rules for this TV
      * @param string $value
-     * @param int $resourceId
+     * @param modResource $resource
      * @return mixed
      */
-    public function checkForFormCustomizationRules($value,$resourceId = 0) {
+    public function checkForFormCustomizationRules($value,&$resource) {
         if ($this->xpdo->request && $this->xpdo->user instanceof modUser) {
-            $resource = false;
-            if (!empty($resourceId)) {
-                /** @var modResource $resource */
-                $resource = $this->xpdo->getObject('modResource',$resourceId);
+            if (empty($resource)) {
+                $resource =& $this->xpdo->resource;
             }
             if ($this->xpdo->getOption('form_customization_use_all_groups',null,false)) {
                 $userGroups = $this->xpdo->user->getUserGroups();
@@ -581,10 +598,10 @@ class modTemplateVar extends modElement {
             $domRules = $this->xpdo->getCollection('modActionDom',$c);
             /** @var modActionDom $rule */
             foreach ($domRules as $rule) {
-                if (!empty($resourceId)) {
+                if (!empty($resource)) {
                     $template = $rule->get('template');
-                    if (!empty($template)) {
-                        if ($resource && $template != $resource->get('template')) continue;
+                    if (!empty($template) && $template != $resource->get('template')) {
+                        continue;
                     }
                 }
                 switch ($rule->get('rule')) {
@@ -959,7 +976,7 @@ class modTemplateVar extends modElement {
                             "JOIN {$resourceGroupTable} ResourceGroup ON Acl.principal_class = 'modUserGroup' " .
                             "AND (Acl.context_key = :context OR Acl.context_key IS NULL OR Acl.context_key = '') " .
                             "AND ResourceGroup.tmplvarid = :element " .
-                            "AND ResourceGroup.documentgroup = acl.target " .
+                            "AND ResourceGroup.documentgroup = Acl.target " .
                             "ORDER BY Acl.target, Acl.principal, Acl.authority";
                     $bindings = array(
                         ':element' => $this->get('id'),
@@ -1039,8 +1056,7 @@ class modTemplateVar extends modElement {
      * @return bool
      */
     public function checkResourceGroupAccess($user = null,$context = '') {
-        $context = !empty($context) ? $context : $this->xpdo->context;
-        $user = !empty($user) ? $user : $this->xpdo->user;
+        $context = !empty($context) ? $context : '';
 
         $c = $this->xpdo->newQuery('modResourceGroup');
         $c->innerJoin('modTemplateVarResourceGroup','TemplateVarResourceGroups',array(
@@ -1108,7 +1124,7 @@ abstract class modTemplateVarRender {
      */
     protected function _loadLexiconTopics() {
         $topics = $this->getLexiconTopics();
-        if (!empty($topics) && !is_array($topics)) {
+        if (!empty($topics) && is_array($topics)) {
             foreach ($topics as $topic) {
                 $this->modx->lexicon->load($topic);
             }

@@ -87,13 +87,12 @@ class modStaticResource extends modResource implements modResourceInterface {
      * {@inheritdoc}
      */
     public function getContent(array $options = array()) {
-        $content = '';
+        $content = false; // Going to sendErrorPage() if couldn't populate the $content
         $this->getSourceFile($options);
         if (!empty ($this->_sourceFile)) {
             if (file_exists($this->_sourceFile)) {
                 $content= $this->getFileContent($this->_sourceFile);
                 if ($content === false) {
-                    $content = '';
                     $this->xpdo->log(xPDO::LOG_LEVEL_ERROR, "No content could be retrieved from source file: {$this->_sourceFile}");
                 }
             } else {
@@ -101,6 +100,9 @@ class modStaticResource extends modResource implements modResourceInterface {
             }
         } else {
             $this->xpdo->log(xPDO::LOG_LEVEL_ERROR, "No source file specified.");
+        }
+        if($content===false) {
+            $this->xpdo->sendErrorPage();
         }
         return $content;
     }
@@ -122,7 +124,7 @@ class modStaticResource extends modResource implements modResourceInterface {
         if ($this->getOne('ContentType')) {
             $type= $this->ContentType->get('mime_type') ? $this->ContentType->get('mime_type') : 'text/html';
             if ($this->ContentType->get('binary') || $filesize > $byte_limit) {
-                if ($alias= array_search($this->xpdo->resourceIdentifier, $this->xpdo->aliasMap)) {
+                if ($alias= $this->get('uri')) {
                     $name= basename($alias);
                 } elseif ($this->get('alias')) {
                     $name= $this->get('alias');

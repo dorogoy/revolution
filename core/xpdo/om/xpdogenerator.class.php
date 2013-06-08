@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2010-2012 by MODX, LLC.
+ * Copyright 2010-2013 by MODX, LLC.
  *
  * This file is part of xPDO.
  *
@@ -47,10 +47,6 @@ abstract class xPDOGenerator {
      * @var xPDOSchemaManager $schemaManager
      */
     public $schemaManager= null;
-    /**
-     * @var xmlParser $xmlParser
-     */
-    public $xmlParser= null;
     /**
      * @var string $outputDir The absolute path to output the class and map
      * files to.
@@ -660,14 +656,15 @@ abstract class xPDOGenerator {
         $placeholders = array_merge($placeholders,$model);
         
         $classMap = array();
-        $skipClasses = array('xPDOObject','xPDOSimpleObject');
+//        $skipClasses = array('xPDOObject','xPDOSimpleObject');
         foreach ($this->classes as $className => $meta) {
-            if (isset($meta['extends']) && !in_array($meta['extends'],$skipClasses)) {
-                if (!isset($classMap[$meta['extends']])) {
-                    $classMap[$meta['extends']] = array();
-                }
-                $classMap[$meta['extends']][] = $className;
+            if (!isset($meta['extends'])) {
+                $meta['extends'] = 'xPDOObject';
             }
+            if (!isset($classMap[$meta['extends']])) {
+                $classMap[$meta['extends']] = array();
+            }
+            $classMap[$meta['extends']][] = $className;
         }
         if ($this->manager->xpdo->getCacheManager()) {
             $placeholders['map'] = var_export($classMap,true);

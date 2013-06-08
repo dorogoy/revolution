@@ -11,16 +11,22 @@ MODx.grid.Context = function(config) {
     Ext.applyIf(config,{
         title: _('contexts')
         ,url: MODx.config.connectors_url+'context/index.php'
-        ,fields: ['key','description','perm']
+        ,fields: ['key','name','description','perm']
         ,paging: true
         ,autosave: true
         ,remoteSort: true
         ,primaryKey: 'key'
         ,columns: [{
-            header: _('context_key')
+            header: _('key')
             ,dataIndex: 'key'
+            ,width: 100
+            ,sortable: true
+        },{
+            header: _('name')
+            ,dataIndex: 'name'
             ,width: 150
             ,sortable: true
+            ,editor: { xtype: 'textfield' }
         },{
             header: _('description')
             ,dataIndex: 'description'
@@ -59,7 +65,7 @@ MODx.grid.Context = function(config) {
 };
 Ext.extend(MODx.grid.Context,MODx.grid.Grid,{
     updateContext: function(itm,e) {
-        location.href = 'index.php?a='+MODx.action['context/update']+'&key='+this.menu.record.key;
+        MODx.loadPage(MODx.action['context/update'], 'key='+this.menu.record.key);
     }
     ,getMenu: function() {
         var r = this.getSelectionModel().getSelected();
@@ -118,6 +124,12 @@ MODx.window.CreateContext = function(config) {
             xtype: 'textfield'
             ,fieldLabel: _('context_key')
             ,name: 'key'
+            ,anchor: '100%'
+            ,maxLength: 100
+        },{
+            xtype: 'textfield'
+            ,fieldLabel: _('name')
+            ,name: 'name'
             ,anchor: '100%'
             ,maxLength: 100
         },{

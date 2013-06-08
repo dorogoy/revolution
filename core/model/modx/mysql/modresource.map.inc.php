@@ -641,7 +641,7 @@ $xpdo_meta_map['modResource']= array (
       array (
         'uri' => 
         array (
-          'length' => '1000',
+          'length' => '333',
           'collation' => 'A',
           'null' => true,
         ),
@@ -732,6 +732,34 @@ $xpdo_meta_map['modResource']= array (
           'length' => '',
           'collation' => 'A',
           'null' => true,
+        ),
+      ),
+    ),
+    'cache_refresh_idx' => 
+    array (
+      'alias' => 'cache_refresh_index',
+      'primary' => false,
+      'unique' => false,
+      'type' => 'BTREE',
+      'columns' => 
+      array (
+        'parent' => 
+        array (
+          'length' => '',
+          'collation' => 'A',
+          'null' => false,
+        ),
+        'menuindex' => 
+        array (
+          'length' => '',
+          'collation' => 'A',
+          'null' => false,
+        ),
+        'id' => 
+        array (
+          'length' => '',
+          'collation' => 'A',
+          'null' => false,
         ),
       ),
     ),
