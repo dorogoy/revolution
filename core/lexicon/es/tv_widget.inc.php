@@ -2,7 +2,7 @@
 /**
  * TV Widget Spanish lexicon topic
  *
- * @language es
+ * @language es_ES
  * @package modx
  * @subpackage lexicon
  */
@@ -102,6 +102,8 @@ $_lang['resourcelist_parents'] = 'Padres';
 $_lang['resourcelist_parents_desc'] = 'Un listado de IDs para proporcionar hijos al listado.';
 $_lang['resourcelist_where'] = 'Condiciones Where';
 $_lang['resourcelist_where_desc'] = 'Un objeto JSON de condiciones "where" por los que filtrar en la consulta que recoge el listado de Recursos. (No soporta la búsqueda por TV)';
+$_lang['resourcelist_where'] = 'Where Conditions';
+$_lang['resourcelist_where_desc'] = 'A JSON object of where conditions to filter by in the query that grabs the list of Resources. (Does not support TV searching.)';
 $_lang['richtext'] = 'Texto formateado';
 $_lang['sentence_case'] = 'Mayúsculas a principio de oración';
 $_lang['shownone'] = 'Permitir un selector vacío';

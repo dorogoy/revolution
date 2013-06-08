@@ -2,7 +2,7 @@
 /**
  * User Spanish lexicon topic
  *
- * @language es
+ * @language es_ES
  * @package modx
  * @subpackage lexicon
  */
@@ -74,6 +74,7 @@ $_lang['user_confirm_remove'] = '¿Está seguro de querer eliminar permanentemen
 $_lang['user_country'] = 'País';
 $_lang['user_dob'] = 'Fecha de nacimiento';
 $_lang['user_doesnt_exist'] = 'El usuario no existe';
+$_lang['user_duplicate'] = 'Duplicate User';
 $_lang['user_edit_self_msg'] = '<strong>Puede necesitar salir y volver a entrar de nuevo después de guardar para actualizar completamente su información</strong><br>Además, si eligiera el generar una nueva contraseña usted mismo, esta se le enviará por e-mail.';
 $_lang['user_email'] = 'Dirección de e-mail';
 $_lang['user_err_access_permissions_save'] = 'Ocurrió un error al guardar los permisos de acceso de usuario.';
@@ -184,6 +185,8 @@ $_lang['user_setting_err_save'] = 'Ocurrió un error al guardar las configuracio
 $_lang['user_settings'] = 'Configuraciones de usuario';
 $_lang['user_settings_desc'] = 'Aquí puede modificar configuraciones específicas para el usuario.';
 $_lang['user_state'] = 'Estado';
+$_lang['user_sudo'] = 'Sudo User';
+$_lang['user_sudo_desc'] = 'If checked, this user will have full access to all the site and will bypass any Access Permissions checks. *DO NOT* check this unless you mean to do so!';
 $_lang['user_title'] = 'Crear/Editar usuario';
 $_lang['user_update'] = 'Actualizar usuario';
 $_lang['user_updated_password_message'] = 'El usuario ha sido modificado. La contraseña es: [[+password]]';

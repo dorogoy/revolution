@@ -2,7 +2,7 @@
 /**
  * Setting Spanish lexicon topic
  *
- * @language es
+ * @language es_ES
  * @package modx
  * @subpackage lexicon
  */
@@ -122,6 +122,9 @@ $_lang['setting_blocked_minutes_desc'] = 'Aquí puede introducir el número de m
 $_lang['setting_cache_action_map'] = 'Habilitar Caché de Mapa de Acción';
 $_lang['setting_cache_action_map_desc'] = 'Cuando esté habilitado, las acciones (o mapas de controlador) serán cacheados para reducir los tiempos de carga de las páginas del administrador.';
 
+$_lang['setting_cache_alias_map'] = 'Enable Context Alias Map Cache';
+$_lang['setting_cache_alias_map_desc'] = 'When enabled, all Resource URIs are cached into the Context. Enable on smaller sites and disable on larger sites for better performance.';
+
 $_lang['setting_cache_context_settings'] = 'Habilitar Caché de la Configuración de Contextos';
 $_lang['setting_cache_context_settings_desc'] = 'Cuando esté habilitado, las configuraciones de contextos serán cacheadas para reducir los tiempos de carga.';
 
@@ -206,6 +209,9 @@ $_lang['setting_context_tree_sortdir_desc'] = 'El sentido a ordenar los Contexto
 $_lang['setting_cultureKey'] = 'Idioma';
 $_lang['setting_cultureKey_desc'] = 'Seleccione el idioma para todos los Contextos que no sean el de administración, incluyendo el contexto Web.';
 
+$_lang['setting_date_timezone'] = 'Default Time Zone';
+$_lang['setting_date_timezone_desc'] = 'Controls the default timezone setting for PHP date functions, if not empty. If empty and the PHP date.timezone ini setting is not set in your environment, UTC will be assumed.';
+
 $_lang['setting_debug'] = 'Depurar';
 $_lang['setting_debug_desc'] = 'Controla la activación de la depuración en MODX y/o configura el nivel error_reporting de PHP. \'\' = utiliza el error_reporting actual, \'0\' = falso (error_reporting = 0), \'1\' = verdadero (error_reporting = -1), o cualquier valor de error_reporting válido (como número entero).';
 
@@ -281,6 +287,9 @@ $_lang['setting_filemanager_url_relative_desc'] = 'Obsoleto - Utilice las Fuente
 $_lang['setting_forgot_login_email'] = 'Email de olvido de inicio de sesión';
 $_lang['setting_forgot_login_email_desc'] = 'La plantilla para el email que se envía cuando un usuario ha olvidado su nombre de usuario y/o contraseña de MODX.';
 
+$_lang['setting_form_customization_use_all_groups'] = 'Use All User Group Memberships for Form Customization';
+$_lang['setting_form_customization_use_all_groups_desc'] = 'If set to true, FC will use *all* Sets for *all* User Groups a member is in when applying Form Customization Sets. Otherwise, it will only use the Set belonging to the User\'s Primary Group. Note: setting this to Yes might cause bugs with conflicting FC Sets.';
+
 $_lang['setting_forward_merge_excludes'] = 'Campos excluidos al fusionarse un Symlink (sendForward)';
 $_lang['setting_forward_merge_excludes_desc'] = 'Los symlinks fusionan sus campos con valores no vacíos con los valores del recurso objetivo; aquí puede usar un listado separado por comas de campos a excluir para que no se sobreescriban por el Symlink.';
 
@@ -321,6 +330,9 @@ $_lang['setting_friendly_urls'] = 'Usar URLs Amigables';
 $_lang['setting_friendly_urls_desc'] = 'Esto permite usar URLs amigables para los buscadores en MODX. Por favor, tenga en cuenta que esto sólo funciona para instalaciones de MODX que corran en Apache necesitándose escribir un fichero .htaccess en el raíz. Ver el fichero .htaccess incluido en la distribución para más información.';
 $_lang['setting_friendly_urls_err'] = 'Por favor, indique si quiere usar o no URLs amigables.';
 
+$_lang['setting_friendly_urls_strict'] = 'Use Strict Friendly URLs';
+$_lang['setting_friendly_urls_strict_desc'] = 'When friendly URLs are enabled, this option forces non-canonical requests that match a Resource to 301 redirect to the canonical URI for that Resource. WARNING: Do not enable if you use custom rewrite rules which do not match at least the beginning of the canonical URI. For example, a canonical URI of foo/ with custom rewrites for foo/bar.html would work, but attempts to rewrite bar/foo.html as foo/ would force a redirect to foo/ with this option enabled.';
+
 $_lang['setting_global_duplicate_uri_check'] = 'Comprobar las URLs Duplicadas a Través de Todos los Contextos';
 $_lang['setting_global_duplicate_uri_check_desc'] = 'Seleccione \'Si\' para que las comprobaciones de URLs duplicadas incluyan todos los Contextos en la búsqueda. De otro modo, sólo el Contexto en el que se esté guardando el Recurso será revisado.';
 
@@ -335,6 +347,9 @@ $_lang['setting_link_tag_scheme_desc'] = 'Esquema de generación de URLs para la
 
 $_lang['setting_locale'] = 'Locale';
 $_lang['setting_locale_desc'] = 'Configura la locale del sistema. Deje en blanco para usar la configurada por defecto. Ver <a href="http://php.net/setlocale" target="_blank">la documentación de PHP</a> para más información.';
+
+$_lang['setting_lock_ttl'] = 'Lock Time-to-Live';
+$_lang['setting_lock_ttl_desc'] = 'The number of seconds a lock on a Resource will remain for if the user is inactive.';
 
 $_lang['setting_log_level'] = 'Nivel de Registro';
 $_lang['setting_log_level_desc'] = 'El nivel por defecto de registro; cuanto más bajo sea, menor cantidad de mensajes quedarán registrados. Las opciones disponibles son: 0 (FATAL), 1 (ERROR), 2 (WARN), 3 (INFO) y 4 (DEBUG).';
@@ -397,6 +412,8 @@ $_lang['setting_manager_js_cache_file_locking'] = 'Habilitar el bloqueo de archi
 $_lang['setting_manager_js_cache_file_locking_desc'] = 'Bloqueo de archivo de caché. Configurar como No si el sistema de ficheros es NFS.';
 $_lang['setting_manager_js_cache_max_age'] = 'Edad de la caché de compresión de JS/CSS del Administrador';
 $_lang['setting_manager_js_cache_max_age_desc'] = 'Edad máxima de la caché de navegador para la compresión de archivos CSS/JS en segundos. Tras ese periodo, el navegador enviará otro GET condicional. Utilice un periodo mayor si tiene poco tráfico.';
+$_lang['setting_manager_js_document_root'] = 'Manager JS/CSS Compression Document Root';
+$_lang['setting_manager_js_document_root_desc'] = 'If your server does not handle the DOCUMENT_ROOT server variable, set it explicitly here to enable the manager CSS/JS compression. Do not change this unless you know what you are doing.';
 $_lang['setting_manager_js_zlib_output_compression'] = 'Habilitar la salida comprimida por  zlib de los archivos JS/CSS del Administrador';
 $_lang['setting_manager_js_zlib_output_compression_desc'] = 'Si se habilita o no la compresión por zlib para los CSS/JS del administrador. No active esto a menos que esté seguro de que la configuración PHP de la variable zlib.output_compression puede estar en 1. MODX recomienda dejarlo desactivado.';
 
@@ -405,6 +422,9 @@ $_lang['setting_manager_lang_attribute_desc'] = 'Introduzca el código de idioma
 
 $_lang['setting_manager_language'] = 'Idioma del Administrador';
 $_lang['setting_manager_language_desc'] = 'Seleccione el idioma para el Administrador de Contenido de MODX.';
+
+$_lang['setting_manager_login_url_alternate'] = 'Alternate Manager Login URL';
+$_lang['setting_manager_login_url_alternate_desc'] = 'An alternate URL to send an unauthenticated user to when they need to login to the manager. The login form there must login the user to the "mgr" context to work.';
 
 $_lang['setting_manager_login_start'] = 'Inicio de sesión del administrador';
 $_lang['setting_manager_login_start_desc'] = 'Introduzca el ID del documento al que desea enviar al usuario después de que este se haya identificado en el administrador.  <strong>NOTA: ¡asegúrase de que el ID que ingresó pertenece a un documento existente, de que este ha sido publicado y de que es accesible para el usuario!</strong>';
@@ -418,8 +438,14 @@ $_lang['setting_manager_time_format_desc'] = 'La cadena de formato, en formato d
 $_lang['setting_manager_use_tabs'] = 'Usar Pestañas en el Diseño del Administrador';
 $_lang['setting_manager_use_tabs_desc'] = 'Si es verdadero, el Administrador usará pestañas para mostrar los paneles de contenido. De otra manera, usará portales.';
 
+$_lang['setting_manager_week_start'] = 'Week start';
+$_lang['setting_manager_week_start_desc'] = 'Define the day starting the week. Use 0 (or leave empty) for sunday, 1 for monday and so on...';
+
 $_lang['setting_modRequest.class'] = 'Clase de controlador de Solicitud';
 $_lang['setting_modRequest.class_desc'] = '';
+
+$_lang['setting_modx_browser_default_sort'] = 'File Browser Default Sort';
+$_lang['setting_modx_browser_default_sort_desc'] = 'The default sort method when using the popup File Browser in the manager. Available values are: name, size, lastmod (last modified).';
 
 $_lang['setting_modx_charset'] = 'Codificación de Caracteres';
 $_lang['setting_modx_charset_desc'] = 'Por favor, seleccione que codificación de caracteres desea usar. Tenga en cuenta que MODX ha sido probado con un buen número de estas codificaciones, pero no con todas ellas. Para la mayoría de idiomas, la configuración prefijada de UTF-8 es la preferida.';
@@ -582,6 +608,9 @@ $_lang['setting_session_cookie_path_desc'] = 'Utilice esta configuración para p
 $_lang['setting_session_cookie_secure'] = 'Cookies de sesión seguras';
 $_lang['setting_session_cookie_secure_desc'] = 'Habilitar esta configuración para usar cookies de sesión seguras.';
 
+$_lang['setting_session_cookie_httponly'] = 'Session Cookie HttpOnly';
+$_lang['setting_session_cookie_httponly_desc'] = 'Use this setting to set the HttpOnly flag on session cookies.';
+
 $_lang['setting_session_gc_maxlifetime'] = 'Vida máxima del recolector de basura de sesión';
 $_lang['setting_session_gc_maxlifetime_desc'] = 'Permite la personalización de la configuración de php.ini session.gc_maxlifetime cuando sea usado con \'modSessionHandler\'.';
 
@@ -708,3 +737,6 @@ $_lang['setting_which_element_editor_desc'] = 'Aquí puede seleccionar que Edito
 
 $_lang['setting_xhtml_urls'] = 'URLs de XHTML';
 $_lang['setting_xhtml_urls_desc'] = 'Si se configura como verdadero, todas las URLs generados por MODX serán conforme a XHTML, incluyendo la codificación del carácter ampersand.';
+
+$_lang['setting_default_context'] = 'Default Context';
+$_lang['setting_default_context_desc'] = 'Select the default Context you wish to use for new Resources.';

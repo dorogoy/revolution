@@ -2,7 +2,7 @@
 /**
  * Resource Spanish lexicon topic
  *
- * @language es
+ * @language es_ES
  * @package modx
  * @subpackage lexicon
  */
@@ -156,3 +156,5 @@ $_lang['weblink_create_here'] = 'Crear un Weblink Aquí';
 $_lang['weblink_help'] = 'La dirección del objeto que desea referenciar con este weblink.  Si quiere apuntar a un Recurso de MODX existente, introduzca el ID aquí.';
 $_lang['weblink_message'] = 'Un weblink es una referencia a un objeto en Internet. Este puede ser un documento dentro de MODX, una página en otro sitio o una imagen u otro fichero de Internet.<p>';
 $_lang['weblink_new'] = 'Nuevo Weblink';
+$_lang['weblink_response_code'] = 'Response Code';
+$_lang['weblink_response_code_help'] = 'The HTTP response code that should be sent for the weblink.';

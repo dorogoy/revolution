@@ -2,15 +2,19 @@
 /**
  * Config Check Spanish lexicon topic
  *
- * @language es
+ * @language es_ES
  * @package modx
  * @subpackage lexicon
  */
-$_lang['configcheck_admin'] = '¡Por favor, contacte a un administrador del sistema y adviértale sobre este mensaje!';
-$_lang['configcheck_cache'] = 'el directorio de caché no es escribible';
-$_lang['configcheck_cache_msg'] = 'MODx no puede escribir en el directorio de caché. MODx funcionará como se espera, pero sin el caché activo. Para solucionarlo asigne permiso de escritura al directorio /_cache/.';
-$_lang['configcheck_configinc'] = '¡El archivo de configuración todavía se puede modificar!';
-$_lang['configcheck_configinc_msg'] = 'Su sitio es vulnerable a hackers que pueden realizar gran daño al mismo. ¡Por favor, ponga su configuración en solo lectura! ¡Si no es el administrador del sitio, contacte a uno y adviértale sobre este mensaje! Se encuentra en [[+path]]';
+$_lang['configcheck_admin'] = '�Por favor, contacte a un administrador del sistema y advi�rtale sobre este mensaje!';
+$_lang['configcheck_allowtagsinpost_context_enabled'] = 'allow_tags_in_post Context Setting Enabled outside `mgr`';
+$_lang['configcheck_allowtagsinpost_context_enabled_msg'] = 'The allow_tags_in_post Context Setting is enabled in your installation outside the mgr Context. MODX recommends this setting be disabled unless you need to explicitly allow users to submit MODX tags, numeric entities, or HTML script tags via the POST method to a form in your site. This should generally be disabled except in the mgr Context.';
+$_lang['configcheck_allowtagsinpost_system_enabled'] = 'allow_tags_in_post System Setting Enabled';
+$_lang['configcheck_allowtagsinpost_system_enabled_msg'] = 'The allow_tags_in_post System Setting is enabled in your installation. MODX recommends this setting be disabled unless you need to explicitly allow users to submit MODX tags, numeric entities, or HTML script tags via the POST method to a form in your site. It is better to enable this via Context Settings for specific Contexts.';
+$_lang['configcheck_cache'] = 'el directorio de cach� no es escribible';
+$_lang['configcheck_cache_msg'] = 'MODx no puede escribir en el directorio de cach�. MODx funcionar� como se espera, pero sin la cach� activa. Para solucionarlo asigne permiso de escritura al directorio /_cache/.';
+$_lang['configcheck_configinc'] = '�El archivo de configuraci�n todav�a se puede modificar!';
+$_lang['configcheck_configinc_msg'] = 'Su sitio es vulnerable a hackers que pueden realizar gran da�o al mismo. �Por favor, ponga su configuraci�n en solo lectura! �Si no es el administrador del sitio, contacte a uno y advi�rtale sobre este mensaje! Se encuentra en [[+path]]';
 $_lang['configcheck_default_msg'] = 'Se encontró un error sin especificar. El cual es extraño.';
 $_lang['configcheck_errorpage_unavailable'] = 'La página de error del sitio no está disponible.';
 $_lang['configcheck_errorpage_unavailable_msg'] = 'Esto significa que su página de error no se encuentra accesible a los usuarios web o no existe. Esto puede llevar a una condición de bucle recursivo y muchos errores en los logs del sitio. Asegúrese de que no hay grupos asignados a la página.';
@@ -30,6 +34,6 @@ $_lang['configcheck_title'] = 'Verificación de configuración';
 $_lang['configcheck_unauthorizedpage_unavailable'] = 'Su página de No Autorizado no existe o no se encuentra publicada.';
 $_lang['configcheck_unauthorizedpage_unavailable_msg'] = 'Su página de No Autorizado no se encuentra accesible para el público en general o no existe. Esto puede llevar a una condición de bucle recursivo y muchos errores en los logs del sitio. Asegúrese de que no hay grupos asignados a la página.';
 $_lang['configcheck_unauthorizedpage_unpublished'] = 'Su página de No Autorizado no se encuentra publicada.';
-$_lang['configcheck_unauthorizedpage_unpublished_msg'] = 'Su página de No Autorizado no se encuentra accesible para el público en general. Publique la página y asegúrese que se encuentra asignada a un documento existente en el árbol de su sitio en el menú Sistema &gt; Configuración del Sistema.';
-$_lang['configcheck_warning'] = 'Advertencia de configuración:';
-$_lang['configcheck_what'] = '¿Que significa esto?';
+$_lang['configcheck_unauthorizedpage_unpublished_msg'] = 'Su p�gina de No Autorizado no se encuentra accesible para el p�blico en general. Publique la página y asegúrese que se encuentra asignada a un documento existente en el árbol de su sitio en el menú Sistema &gt; Configuración del Sistema.';
+$_lang['configcheck_warning'] = 'Advertencia de configuraci�n:';
+$_lang['configcheck_what'] = '�Qu� significa esto?';

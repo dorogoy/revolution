@@ -2,10 +2,12 @@
 /**
  * Property Set Spanish lexicon topic
  *
- * @language es
+ * @language es_ES
  * @package modx
  * @subpackage lexicon
  */
+$_lang['area'] = 'Area';
+$_lang['areas'] = 'Areas';
 $_lang['class_name'] = 'Nombre de Clase';
 $_lang['default'] = 'Por defecto';
 $_lang['duplicate_of'] = 'Duplicado de [[+name]]';
@@ -24,6 +26,8 @@ $_lang['properties_import_err_upload'] = 'Por favor, especifique un fichero de p
 $_lang['properties_import_msg'] = 'Por favor, seleccione un fichero de propiedades válido.';
 $_lang['properties_remove'] = 'Eliminar Propiedades';
 $_lang['properties_remove_confirm'] = '¿Está seguro de querer eliminar estas propiedades?';
+$_lang['property'] = 'Property';
+$_lang['property_area_desc'] = 'The area, or group, this property belongs to.';
 $_lang['property_create'] = 'Crear Propiedad';
 $_lang['property_description_desc'] = 'Una descripción corta de la propiedad. Puede ser una entrada del léxico de la propiedad.';
 $_lang['property_lexicon_desc'] = 'Opcional. El léxico con el que este campo de la propiedad puede ser traducido.';

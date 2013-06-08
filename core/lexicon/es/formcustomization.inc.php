@@ -2,7 +2,7 @@
 /**
  * Form Customization Spanish lexicon topic
  *
- * @language es
+ * @language es_ES
  * @package modx
  * @subpackage lexicon
  */
@@ -56,6 +56,8 @@ $_lang['profiles'] = 'Perfiles de Personalización de Formularios';
 $_lang['profiles_msg'] = 'Esta es una lista de sus Perfiles de Personalización de Formularios.  Los Perfiles pueden contener muchas Reglas de Personalización de Formularios y pueden estar activados o desactivados.  También pueden estar configurados para aplicarse sólo a ciertos Grupos de Usuarios.';
 $_lang['rank'] = 'Rango';
 $_lang['rank_desc'] = 'El orden en el que la Regla es ejecutada.  Un número menor significa que será ejecutada antes.';
+$_lang['region'] = 'Región';
+$_lang['regions'] = 'Regiones';
 $_lang['rule'] = 'Regla';
 $_lang['rule_create'] = 'Crear Regla';
 $_lang['rule_desc'] = 'El tipo de Regla que será aplicada a este campo.';

@@ -94,6 +94,7 @@ $_lang['install_packages_options'] = 'Opciones de Instalación de Paquetes';
 $_lang['install_success'] = 'La instalación del programa principal fue existosa.  Haz clic en Siguiente para completar el proceso de instalación.';
 $_lang['install_summary'] = 'Resúmen de Instalación';
 $_lang['install_update'] = 'Instalar/Actualizar';
+$_lang['installation_finished'] = 'Instalación terminada en [[+time]]';
 $_lang['license'] = '<p class="title">Debes de estar de acuerdo con la Licencia antes de continuar con la instalación.</p>
     <p>El uso de este software es sujeto a la licencia GPL.  Para ayudarte a entender
     lo que es la licencia GPL y cómo afecta tu habilidad de usar el software,

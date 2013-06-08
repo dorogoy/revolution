@@ -2,7 +2,7 @@
 /**
  * Context Spanish lexicon topic
  *
- * @language es
+ * @language es_ES
  * @package modx
  * @subpackage lexicon
  */

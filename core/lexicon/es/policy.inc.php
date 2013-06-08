@@ -2,7 +2,7 @@
 /**
  * Access Policy Spanish lexicon topic
  *
- * @language es
+ * @language es_ES
  * @package modx
  * @subpackage lexicon
  */
@@ -39,6 +39,9 @@ $_lang['policy_err_nf'] = 'Directiva no encontrada.';
 $_lang['policy_err_ns'] = 'Directiva no especificada.';
 $_lang['policy_err_remove'] = 'Ocurrió un error mientras se trataba de eliminar la Directiva.';
 $_lang['policy_err_save'] = 'Ocurrió un error mientras se trataba de guardar la Directiva.';
+$_lang['policy_export'] = 'Export Policy';
+$_lang['policy_import'] = 'Import Policy';
+$_lang['policy_import_msg'] = 'Select an XML file to import a Policy from. It must be in the correct XML Policy format.';
 $_lang['policy_management'] = 'Directivas de Acceso';
 $_lang['policy_management_msg'] = 'Las Directivas de Acceso administran cómo MODX maneja los permisos para las acciones especificadas.';
 $_lang['policy_name'] = 'Nombre de la Directiva';
@@ -65,6 +68,9 @@ $_lang['policy_template_err_nf'] = 'Plantilla de Directiva no encontrada.';
 $_lang['policy_template_err_ns'] = 'Plantilla de Directiva no especificada.';
 $_lang['policy_template_err_remove'] = 'Ocurrió un error mientras se trataba de eliminar la Plantilla de Directiva.';
 $_lang['policy_template_err_save'] = 'Ocurrió un error mientras se trataba de guardar la Plantilla de Directiva.';
+$_lang['policy_template_export'] = 'Export Policy Template';
+$_lang['policy_template_import'] = 'Import Policy Template';
+$_lang['policy_template_import_msg'] = 'Select an XML file to import a Policy Template from. It must be in the correct XML Policy Template format.';
 $_lang['policy_template_remove'] = 'Eliminar Plantilla de Directiva';
 $_lang['policy_template_remove_confirm'] = '¿Está seguro de querer eliminar esta Plantilla de Directiva? También eliminará todas las Directivas adjuntas a ella - esto podría romper su instalación de MODX si cualquier Directiva activa estuviera adjunta a la Plantilla.';
 $_lang['policy_template_remove_multiple'] = 'Eliminar las Plantillas de Directiva Seleccionadas';

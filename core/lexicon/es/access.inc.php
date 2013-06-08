@@ -2,7 +2,7 @@
 /**
  * Access Spanish lexicon topic
  *
- * @language es
+ * @language es_ES
  * @package modx
  * @subpackage lexicon
  */
@@ -94,8 +94,35 @@ $_lang['resource_group_resource_err_nf'] = 'El recurso no es parte de este grupo
 $_lang['resource_group_resource_err_remove'] = 'Ocurrió un error al tratar de eliminar el recurso del grupo de recursos.';
 $_lang['resource_group_untitled'] = 'Grupo de recursos sin título';
 $_lang['resource_group_update'] = 'Actualizar Grupo de Recursos';
+$_lang['resource_group_access_contexts'] = 'A comma-separated list of Contexts that the Resource Group should pertain to for the following options.';
+$_lang['resource_group_automatic_access'] = 'Access Wizard';
+$_lang['resource_group_automatic_access_desc'] = 'Note: You may have to flush sessions after adding the Resource Group if you check any of the options below.';
+$_lang['resource_group_access_admin'] = 'Automatically Give Adminstrator Group Access';
+$_lang['resource_group_access_admin_desc'] = 'If checked, will give the Administrator Group view and editing access to this Resource Group for the above contexts.';
+$_lang['resource_group_access_anon'] = 'Automatically Give Anonymous Access';
+$_lang['resource_group_access_anon_desc'] = 'If checked, will give non-logged-in users view access to this Resource Group for the above contexts.';
+$_lang['resource_group_access_parallel'] = 'Create Parallel User Group';
+$_lang['resource_group_access_parallel_desc'] = 'If checked, will automatically create a User Group with the same name, and give it view access to this Resource Group for the above contexts.';
+$_lang['resource_group_access_ugs'] = 'Automatically Give Other User Groups Access';
+$_lang['resource_group_access_ugs_desc'] = 'A comma-separated list of User Group names. If non-blank, will give the User Groups specified here view access to this Resource Group for the above contexts.';
 $_lang['roles_msg'] = 'Un rol es, por definición una posición o estatus que se posee ante una cierta situación. Pueden ser utilizados por grupos de usuarios en una posición o estatus dentro de un Grupo de Usuarios. Los roles en MODX también tienen lo que se denomina "Autoridad". Esta es un valor numérico que puede ser cualquier integral válido. Los niveles de autoridad son "heredables hacia abajo", en el sentido de que un rol con Autoridad 1 heredará cualquiera y todas las directivas asignadas a si mismo, así como las de cualquier rol con un nivel de autoridad mayor de 1.';
 $_lang['source_add'] = 'Añadir Fuente de Medios';
+
+$_lang['user_group_aw'] = 'Access Wizard';
+$_lang['user_group_aw_desc'] = 'Note: You may have to flush sessions after adding the User Group if you check any of the options below.';
+$_lang['user_group_aw_contexts'] = 'Contexts';
+$_lang['user_group_aw_contexts_desc'] = 'A comma-separated list of Contexts that this User Group should be able to view.';
+$_lang['user_group_aw_manager_policy'] = 'Manager Policy';
+$_lang['user_group_aw_manager_policy_desc'] = 'The Policy to give the User Group for editing in the manager. Select (no policy) if you do not want to grant manager access.';
+$_lang['user_group_aw_users'] = 'Users';
+$_lang['user_group_aw_users_desc'] = 'A comma-separated list of usernames to add to this User Group. You can use the format username:role to set the role; otherwise, Member will be assumed.';
+$_lang['user_group_aw_resource_groups'] = 'Resource Groups';
+$_lang['user_group_aw_resource_groups_desc'] = 'A comma-separated list of Resource Groups to give access to in the Contexts specified above.';
+$_lang['user_group_aw_categories'] = 'Element Categories';
+$_lang['user_group_aw_categories_desc'] = 'A comma-separated list of Element Categories to give access to in the Contexts specified above.';
+$_lang['user_group_aw_parallel'] = 'Create Parallel Resource Group';
+$_lang['user_group_aw_parallel_desc'] = 'If checked, will automatically create a Resource Group with the same name, and give this User Group view access to it in the Contexts specified above.';
+
 $_lang['user_group_category_access'] = 'Acceso de Categorías por Elemento';
 $_lang['user_group_category_access_msg'] = 'Aquí puede configurar qué Elementos pueden ser accedidos por este Grupo de Usuarios dependiendo de las Categorías de dichos elementos.';
 $_lang['user_group_category_authority_desc'] = 'El Rol mínimo que tendrá acceso a los Permisos en la Directiva seleccionada para este contexto. Los Roles con Autoridad más fuerte (números menores) heredarán ese acceso también. En la mayoría de situaciones se puede dejar esto como "Miembro".';

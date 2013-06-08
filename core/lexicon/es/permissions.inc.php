@@ -2,7 +2,7 @@
 /**
  * Permissions Spanish lexicon topic
  *
- * @language es
+ * @language es_ES
  * @package modx
  * @subpackage lexicon
  */
@@ -129,6 +129,7 @@ $_lang['perm.resourcegroup_resource_list_desc'] = 'Ver y listar Recursos en un G
 $_lang['perm.resourcegroup_new_desc'] = 'Crear un nuevo Grupo de Recursos.';
 $_lang['perm.resourcegroup_save_desc'] = 'Guardar un Grupo de Recursos.';
 $_lang['perm.resourcegroup_view_desc'] = 'Listar Grupos de Recursos.';
+$_lang['perm.resource_duplicate_desc'] = 'Duplicar un Recurso.';
 $_lang['perm.resource_quick_create_desc'] = 'Ser capaz de utilizar la Creación Rápida de Recursos en el árbol de la izquierda.';
 $_lang['perm.resource_quick_update_desc'] = 'Ser capaz de utilizar Actualización Rápida de Recursos en el árbol de la izquierda.';
 $_lang['perm.resource_tree_desc'] = 'Ver el Árbol de Recursos a la izquierda.';

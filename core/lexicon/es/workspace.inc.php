@@ -2,7 +2,7 @@
 /**
  * Workspace Spanish lexicon topic
  *
- * @language es
+ * @language es_ES
  * @package modx
  * @subpackage lexicon
  */
@@ -34,6 +34,7 @@ $_lang['download_extras'] = 'Descargar Extras';
 $_lang['downloads'] = 'Descargas';
 $_lang['downloads_view'] = '{downloads} descargas';
 $_lang['information'] = 'Información';
+$_lang['install'] = 'Instalar';
 $_lang['installation_instructions'] = 'Instrucciones de Instalación';
 $_lang['installed'] = 'Instalado';
 $_lang['installed_on'] = 'Instalado en <br/>[[+time]]';
@@ -69,6 +70,7 @@ $_lang['package_confirm_remove'] = '¿Estás seguro de querer borrar este paquet
 $_lang['package_confirm_uninstall'] = '¿Está seguro de querer desinstalar este paquete?';
 $_lang['package_created'] = 'Creado nuevo transporte de paquetes con firma: [[+signature]]';
 $_lang['package_details'] = 'Detalles del paquete';
+$_lang['package_details_for'] = 'Detalles del paquete para [[+package]]';
 $_lang['package_download_err'] = 'No se pudo descargar el paquete en: [[+location]]';
 $_lang['package_download_err_create'] = 'No se pudo descargar y crear el paquete de transporte con firma: [[+signature]]';
 $_lang['package_download_err_ns'] = 'Por favor seleccione al menos una versión del paquete a descargar.';

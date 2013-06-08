@@ -2,10 +2,11 @@
 /**
  * Login Spanish lexicon topic
  *
- * @language es
+ * @language es_ES
  * @package modx
  * @subpackage lexicon
  */
+$_lang['login_language'] = 'Idioma';
 $_lang['login_activation_key_err'] = '¡La clave de activación no coincide! Por favor, compruebe su email de activación y asegúrese de que cargó la URL correcta.';
 $_lang['login_blocked_admin'] = 'Ha sido bloqueado del panel de administración por un administrador.';
 $_lang['login_blocked_error'] = 'Ha sido bloqueado temporalmente y no puede entrar. Por favor, inténtelo más tarde.';
